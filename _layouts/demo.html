@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>{{ page.title | default: "default page" }}</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
+
+  <!-- MathJax for equations -->
+  <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      jax: ["input/TeX", "output/HTML-CSS"],
+      extensions: ["tex2jax.js"],
+      "HTML-CSS": { preferredFont: "TeX", availableFonts: ["STIX","TeX"], scale: 77},
+      tex2jax: { inlineMath: [ ["$", "$"], ["\\(","\\)"] ], displayMath: [ ["$$","$$"], ["\\[", "\\]"] ], processEscapes: true, ignoreClass: "tex2jax_ignore|dno" },
+      TeX: { noUndefined: { attributes: { mathcolor: "red", mathbackground: "#FFEEEE", mathsize: "50%" } } },
+      messageStyle: "none"
+    });
+  </script>
+  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js"></script>
+
+  <!-- Custom Styles -->
+  <!-- <link rel="stylesheet" href="{{ '/assets/css/style.css' | relative_url }}"> -->
+
+  <style>
+    body {
+      width: 1000px;
+      margin: 10 auto;
+    }
+
+    .audio-cell, .audio-cell-padded {
+      text-align: center;
+      padding-top: 1px;
+      padding-bottom: 1px;
+    }
+
+    .audio-cell-padded {
+      padding-top: 10px;
+      padding-bottom: 10px;
+    }
+
+    .round-button {
+      box-sizing: border-box;
+      display:block;
+      width:30px;
+      height:30px;
+      padding-top: 8px;
+      padding-left: 3px;
+      line-height: 6px;
+      border: 1.2px solid #000;
+      border-radius: 50%;
+      color: #000;
+      text-align:center;
+      background-color: rgba(0,0,0,0.00);
+      font-size:6px;
+      box-shadow: 0px 0px 2px rgba(0,0,0,1);
+      transition: all 0.2s ease;
+    }
+
+    .round-button:hover {
+      box-shadow: 0px 0px 4px rgba(0,0,0,1);
+    }
+
+    .round-button:active {
+      box-shadow: 0px 0px 1px rgba(0,0,0,1);
+    }
+  </style>
+</head>
+
+<body>
+  {{ content }}
+
+  <!-- JS Animation Logic -->
+  <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      jax: ["input/TeX", "output/HTML-CSS"],
+      extensions: ["tex2jax.js"],
+      "HTML-CSS": { preferredFont: "TeX", availableFonts: ["STIX","TeX"], scale: 77},
+      tex2jax: { inlineMath: [ ["$", "$"], ["\\(","\\)"] ], displayMath: [ ["$$","$$"], ["\\[", "\\]"] ], processEscapes: true, ignoreClass: "tex2jax_ignore|dno" },
+      TeX: { noUndefined: { attributes: { mathcolor: "red", mathbackground: "#FFEEEE", mathsize: "50%" } } },
+      messageStyle: "none"
+    });
+  </script>
+  
+  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js"></script>
+  
+  <script>
+    {% raw %}
+    function play(path) {{
+      var player = document.getElementById('player');
+      player.src = path;
+      player.play();
+    }}
+    function isInternetExplorer() {
+      ua = navigator.userAgent;
+      /* MSIE used to detect old browsers and Trident used to newer ones*/
+      return ua.indexOf("MSIE ") > -1 || ua.indexOf("Trident/") > -1;
+    }
+
+    /* Define the Animation class */
+    function Animation(frames, img_id, slider_id, interval, loop_select_id){
+      this.img_id = img_id;
+      this.slider_id = slider_id;
+      this.loop_select_id = loop_select_id;
+      this.interval = interval;
+      this.current_frame = 0;
+      this.direction = 0;
+      this.timer = null;
+      this.frames = new Array(frames.length);
+
+      for (var i=0; i<frames.length; i++)
+      {
+        this.frames[i] = new Image();
+        this.frames[i].src = frames[i];
+      }
+      var slider = document.getElementById(this.slider_id);
+      slider.max = this.frames.length - 1;
+      if (isInternetExplorer()) {
+          // switch from oninput to onchange because IE <= 11 does not conform
+          // with W3C specification. It ignores oninput and onchange behaves
+          // like oninput. In contrast, Mircosoft Edge behaves correctly.
+          slider.setAttribute('onchange', slider.getAttribute('oninput'));
+          slider.setAttribute('oninput', null);
+      }
+      this.set_frame(this.current_frame);
+    }
+
+    Animation.prototype.get_loop_state = function(){
+      return 0;
+    }
+
+    Animation.prototype.set_frame = function(frame){
+      this.current_frame = frame;
+      document.getElementById(this.img_id).src =
+              this.frames[this.current_frame].src;
+      document.getElementById(this.slider_id).value = this.current_frame;
+    }
+
+    Animation.prototype.next_frame = function()
+    {
+      this.set_frame(Math.min(this.frames.length - 1, this.current_frame + 1));
+    }
+
+    Animation.prototype.previous_frame = function()
+    {
+      this.set_frame(Math.max(0, this.current_frame - 1));
+    }
+
+    Animation.prototype.first_frame = function()
+    {
+      this.set_frame(0);
+    }
+
+    Animation.prototype.last_frame = function()
+    {
+      this.set_frame(this.frames.length - 1);
+    }
+
+    Animation.prototype.slower = function()
+    {
+      this.interval /= 0.7;
+      if(this.direction > 0){this.play_animation();}
+      else if(this.direction < 0){this.reverse_animation();}
+    }
+
+    Animation.prototype.faster = function()
+    {
+      this.interval *= 0.7;
+      if(this.direction > 0){this.play_animation();}
+      else if(this.direction < 0){this.reverse_animation();}
+    }
+
+    Animation.prototype.anim_step_forward = function()
+    {
+      this.current_frame += 1;
+      if(this.current_frame < this.frames.length){
+        this.set_frame(this.current_frame);
+      }else{
+        var loop_state = this.get_loop_state();
+        if(loop_state == "loop"){
+          this.first_frame();
+        }else if(loop_state == "reflect"){
+          this.last_frame();
+          this.reverse_animation();
+        }else{
+          this.pause_animation();
+          this.last_frame();
+        }
+      }
+    }
+
+    Animation.prototype.anim_step_reverse = function()
+    {
+      this.current_frame -= 1;
+      if(this.current_frame >= 0){
+        this.set_frame(this.current_frame);
+      }else{
+        var loop_state = this.get_loop_state();
+        if(loop_state == "loop"){
+          this.last_frame();
+        }else if(loop_state == "reflect"){
+          this.first_frame();
+          this.play_animation();
+        }else{
+          this.pause_animation();
+          this.first_frame();
+        }
+      }
+    }
+
+    Animation.prototype.pause_animation = function()
+    {
+      this.direction = 0;
+      if (this.timer){
+        clearInterval(this.timer);
+        this.timer = null;
+      }
+    }
+
+    Animation.prototype.play_animation = function()
+    {
+      this.pause_animation();
+      this.direction = 1;
+      var t = this;
+      if (!this.timer) this.timer = setInterval(function() {
+          t.anim_step_forward();
+      }, this.interval);
+    }
+
+    Animation.prototype.reverse_animation = function()
+    {
+      this.pause_animation();
+      this.direction = -1;
+      var t = this;
+      if (!this.timer) this.timer = setInterval(function() {
+          t.anim_step_reverse();
+      }, this.interval);
+    }
+    {% endraw %}
+  </script>
+
+</body>
+</html>

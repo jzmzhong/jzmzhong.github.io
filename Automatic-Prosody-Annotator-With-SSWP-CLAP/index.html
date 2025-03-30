@@ -1,586 +1,326 @@
 ---
-layout: compress
+layout: demo
 title: Multi-modal Automatic Prosody Annotation with Contrastive Pretraining of SSWP
+permalink: /Automatic-Prosody-Annotator-With-SSWP-CLAP/
 ---
 
-<html>
-   <head>
-      <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-      <title>Audio-samples</title>
-      <!-- <link rel="stylesheet" type="text/css" href="stylesheet.css"/> -->
-      <link rel="stylesheet"
-href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
-      <!-- <link rel="shortcut icon" href="../../images/taco.png"> -->
-      <script type="text/x-mathjax-config">
-    MathJax.Hub.Config({
-      jax: ["input/TeX", "output/HTML-CSS"],
-      extensions: ["tex2jax.js"],
-      "HTML-CSS": { preferredFont: "TeX", availableFonts: ["STIX","TeX"], scale: 77},
-      tex2jax: { inlineMath: [ ["$", "$"], ["\\(","\\)"] ], displayMath: [ ["$$","$$"], ["\\[", "\\]"] ], processEscapes: true, ignoreClass: "tex2jax_ignore|dno" },
-      TeX: { noUndefined: { attributes: { mathcolor: "red", mathbackground: "#FFEEEE", mathsize: "50%" } } },
-      messageStyle: "none"
-    });
-    </script>    
-    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js"></script>
-      <script>
-         function play(path) {{
-           var player = document.getElementById('player');
-           player.src = path;
-           player.play();
-         }}
-         function isInternetExplorer() {
-            ua = navigator.userAgent;
-            /* MSIE used to detect old browsers and Trident used to newer ones*/
-            return ua.indexOf("MSIE ") > -1 || ua.indexOf("Trident/") > -1;
-          }
-
-          /* Define the Animation class */
-          function Animation(frames, img_id, slider_id, interval, loop_select_id){
-            this.img_id = img_id;
-            this.slider_id = slider_id;
-            this.loop_select_id = loop_select_id;
-            this.interval = interval;
-            this.current_frame = 0;
-            this.direction = 0;
-            this.timer = null;
-            this.frames = new Array(frames.length);
-
-            for (var i=0; i<frames.length; i++)
-            {
-             this.frames[i] = new Image();
-             this.frames[i].src = frames[i];
-            }
-            var slider = document.getElementById(this.slider_id);
-            slider.max = this.frames.length - 1;
-            if (isInternetExplorer()) {
-                // switch from oninput to onchange because IE <= 11 does not conform
-                // with W3C specification. It ignores oninput and onchange behaves
-                // like oninput. In contrast, Mircosoft Edge behaves correctly.
-                slider.setAttribute('onchange', slider.getAttribute('oninput'));
-                slider.setAttribute('oninput', null);
-            }
-            this.set_frame(this.current_frame);
-          }
-
-          Animation.prototype.get_loop_state = function(){
-            return 0;
-          }
-
-          Animation.prototype.set_frame = function(frame){
-            this.current_frame = frame;
-            document.getElementById(this.img_id).src =
-                    this.frames[this.current_frame].src;
-            document.getElementById(this.slider_id).value = this.current_frame;
-          }
-
-          Animation.prototype.next_frame = function()
-          {
-            this.set_frame(Math.min(this.frames.length - 1, this.current_frame + 1));
-          }
-
-          Animation.prototype.previous_frame = function()
-          {
-            this.set_frame(Math.max(0, this.current_frame - 1));
-          }
-
-          Animation.prototype.first_frame = function()
-          {
-            this.set_frame(0);
-          }
-
-          Animation.prototype.last_frame = function()
-          {
-            this.set_frame(this.frames.length - 1);
-          }
-
-          Animation.prototype.slower = function()
-          {
-            this.interval /= 0.7;
-            if(this.direction > 0){this.play_animation();}
-            else if(this.direction < 0){this.reverse_animation();}
-          }
-
-          Animation.prototype.faster = function()
-          {
-            this.interval *= 0.7;
-            if(this.direction > 0){this.play_animation();}
-            else if(this.direction < 0){this.reverse_animation();}
-          }
-
-          Animation.prototype.anim_step_forward = function()
-          {
-            this.current_frame += 1;
-            if(this.current_frame < this.frames.length){
-              this.set_frame(this.current_frame);
-            }else{
-              var loop_state = this.get_loop_state();
-              if(loop_state == "loop"){
-                this.first_frame();
-              }else if(loop_state == "reflect"){
-                this.last_frame();
-                this.reverse_animation();
-              }else{
-                this.pause_animation();
-                this.last_frame();
-              }
-            }
-          }
-
-          Animation.prototype.anim_step_reverse = function()
-          {
-            this.current_frame -= 1;
-            if(this.current_frame >= 0){
-              this.set_frame(this.current_frame);
-            }else{
-              var loop_state = this.get_loop_state();
-              if(loop_state == "loop"){
-                this.last_frame();
-              }else if(loop_state == "reflect"){
-                this.first_frame();
-                this.play_animation();
-              }else{
-                this.pause_animation();
-                this.first_frame();
-              }
-            }
-          }
-
-          Animation.prototype.pause_animation = function()
-          {
-            this.direction = 0;
-            if (this.timer){
-              clearInterval(this.timer);
-              this.timer = null;
-            }
-          }
-
-          Animation.prototype.play_animation = function()
-          {
-            this.pause_animation();
-            this.direction = 1;
-            var t = this;
-            if (!this.timer) this.timer = setInterval(function() {
-                t.anim_step_forward();
-            }, this.interval);
-          }
-
-          Animation.prototype.reverse_animation = function()
-          {
-            this.pause_animation();
-            this.direction = -1;
-            var t = this;
-            if (!this.timer) this.timer = setInterval(function() {
-                t.anim_step_reverse();
-            }, this.interval);
-          }
-      </script>
-      <style>
-        body{
-          width: 1000px;
-          margin: 10 auto;
-        }
-        .animation {
-            display: inline-block;
-            text-align: center;
-        }
-        input[type=range].anim-slider {
-            width: 374px;
-            margin-left: auto;
-            margin-right: auto;
-        }
-        .anim-buttons {
-            margin: 8px 0px;
-        }
-        .anim-buttons button {
-            padding: 0;
-            width: 36px;
-        }
-        .anim-state label {
-            margin-right: 8px;
-        }
-        .anim-state input {
-            margin: 0;
-            vertical-align: middle;
-        }
-        .audio-cell {
-        /* Center audio widgets in the table cell. */
-        text-align: center;
-        padding-bottom: 1px;
-        padding-top: 1px;
-        }
-        .audio-cell-padded {
-        text-align: center;
-        padding-bottom: 10px;
-        padding-top: 10px;
-        }
-        .audio-header {
-        /* Don't wrap header text. */
-        white-space: nowrap;
-        /* Some breaking space between headers for readability. */
-        padding-right: 5px;
-        padding-left: 5px;
-        }
-        .reference-cell {
-        /* For uniformity and to wrap long reference text, limit the reference cell's width. */
-        width: 25%;
-        padding-top: 20px;
-        padding-bottom: 20px;
-        }
-        .sample audio {
-        vertical-align: middle;
-        padding-left: 3px;
-        padding-right: 3px;
-        }
-        .round-button {
-        box-sizing: border-box;
-        display:block;
-        width:30px;
-        height:30px;
-        padding-top: 8px;
-        padding-left: 3px;
-        line-height: 6px;
-        border: 1.2px solid #000;
-        border-radius: 50%;
-        color: #000;
-        text-align:center;
-        background-color: rgba(0,0,0,0.00);
-        font-size:6px;
-        box-shadow: 0px 0px 2px rgba(0,0,0,1);
-        transition: all 0.2s ease;
-        }
-        .round-button:hover {
-        background-color: rgba(0,0,0,0.0);
-        box-shadow: 0px 0px 4px rgba(0,0,0,1);
-        }
-        .round-button:active {
-        background-color: rgba(0,0,0,0.01);
-        box-shadow: 0px 0px 1px rgba(0,0,0,1);
-        }
-      </style>
-   </head>
-
- <body>
-     <div class="main">
-       <article>
-         <header>
-            <h1 align="center">Multi-modal Automatic Prosody Annotation with Contrastive Pretraining of SSWP</h1>
-            <p style="line-height:100%", align="center"> <b>Authors: </b>Jinzuomu Zhong, Yang Li, Hui Huang, Korin Richmond, Jie Liu, Zhiba Su, Jing Guo, Benlai Tang, Fengjie Zhu</p>
-            
-            <table style="border:1px solidb ack;margin-left:auto;margin-right:auto;border-spacing:20px;">
-              <tr>
-                <td><h4><a href="https://www.isca-archive.org/interspeech_2024/zhong24c_interspeech.html">Paper</a></h4></td>
-                <td><h4><a href="https://arxiv.org/abs/2309.05423">Arxiv</a></h4></td>
-                <td><h4><a href="https://jzmzhong.github.io/Automatic-Prosody-Annotator-With-SSWP-CLAP">Demo[Here]</a></h4></td>
-                <td><h4><a href="https://github.com/jzmzhong/Automatic-Prosody-Annotator-with-SSWP-CLAP/">Code</a></h4></td>
-              </tr>
-            </table>
-            
-            <!-- <span class="link-block">
-              <a href="https://arxiv.org/abs/2309.05423"
-                 class="external-link button is-normal is-rounded is-dark">
-                <span class="icon">
-                    <i class="arxiv"></i>
-                </span>
-                <span>Arxiv</span>
-              </a>
-            </span>
-            <span class="link-block">
-              <a href="https://jzmzhong.github.io/Automatic-Prosody-Annotator-With-SSWP-CLAP"
-                 class="external-link button is-normal is-rounded is-dark">
-                <span class="icon">
-                    <i class="webpage"></i>
-                </span>
-                <span>Demo</span>
-              </a>
-            </span>
-            <span class="link-block">
-              <a href=""
-                 class="external-link button is-normal is-rounded is-dark">
-                <span class="icon">
-                    <i class="github"></i>
-                </span>
-                <span>Code (To Be Released Soon)</span>
-                </a>
-            </span> -->
-         </header>
-      </article>
-      </div>
+<div class="main">
+  <article>
+    <header>
+      <h1 align="center">Multi-modal Automatic Prosody Annotation with Contrastive Pretraining of SSWP</h1>
+      <p style="line-height:100%", align="center"> <b>Authors: </b>Jinzuomu Zhong, Yang Li, Hui Huang, Korin Richmond, Jie Liu, Zhiba Su, Jing Guo, Benlai Tang, Fengjie Zhu</p>
       
-      <div align="justify">
+      <table style="border:1px solidb ack;margin-left:auto;margin-right:auto;border-spacing:20px;">
+        <tr>
+          <td><h4><a href="https://www.isca-archive.org/interspeech_2024/zhong24c_interspeech.html">Paper</a></h4></td>
+          <td><h4><a href="https://arxiv.org/abs/2309.05423">Arxiv</a></h4></td>
+          <td><h4><a href="https://jzmzhong.github.io/Automatic-Prosody-Annotator-With-SSWP-CLAP">Demo[Here]</a></h4></td>
+          <td><h4><a href="https://github.com/jzmzhong/Automatic-Prosody-Annotator-with-SSWP-CLAP/">Code</a></h4></td>
+        </tr>
+      </table>
       
-      <!-- Abstract -->
-      <h3>Abstract</h3>
-      In expressive and controllable Text-to-Speech (TTS), explicit prosodic features significantly improve the naturalness and controllability of synthesised speech. However, manual prosody annotation is labor-intensive and inconsistent. To address this issue, a two-stage automatic annotation pipeline is novelly proposed in this paper. In the first stage, we use contrastive pretraining of Speech-Silence and Word-Punctuation (SSWP) pairs to enhance prosodic information in latent representations. In the second stage, we build a multi-modal prosody annotator, comprising pretrained encoders, a text-speech fusing scheme, and a sequence classifier. Experiments on English prosodic boundaries demonstrate that our method achieves state-of-the-art (SOTA) performance with 0.72 and 0.93 f1 score for Prosodic Word and Prosodic Phrase boundary respectively, while bearing remarkable robustness to data scarcity.      
-      
-      <!-- Method -->
-      <h3>The Architecture of Our Proposed Work</h3>
-      <figure>
-        <p style="text-align:center"><img src="./figs/model_v2.3_trimmed.png" alt="AVSE" height=500px/></p>
-      </figure>      
-      
-      <!-- Ojective Evaluation -->
-      <h3>Objective Evaluation</h3>
-      The results of our proposed work, compared with previous benchmarks, are shown below.
-      <figure>
-        <p style="text-align:center"><img src="./figs/objective.png" alt="AVSE" height=140px/></p>
-      </figure>
+      <!-- <span class="link-block">
+        <a href="https://arxiv.org/abs/2309.05423"
+            class="external-link button is-normal is-rounded is-dark">
+          <span class="icon">
+              <i class="arxiv"></i>
+          </span>
+          <span>Arxiv</span>
+        </a>
+      </span>
+      <span class="link-block">
+        <a href="https://jzmzhong.github.io/Automatic-Prosody-Annotator-With-SSWP-CLAP"
+            class="external-link button is-normal is-rounded is-dark">
+          <span class="icon">
+              <i class="webpage"></i>
+          </span>
+          <span>Demo</span>
+        </a>
+      </span>
+      <span class="link-block">
+        <a href=""
+            class="external-link button is-normal is-rounded is-dark">
+          <span class="icon">
+              <i class="github"></i>
+          </span>
+          <span>Code (To Be Released Soon)</span>
+          </a>
+      </span> -->
+    </header>
+</article>
+</div>
 
-      <!-- Ablaion Studies -->
-      <h3>Ablation Studies</h3>
-      We conduct extensive ablation studies to prove the efficacy of each module in our proposed work, as shown below.
-      <figure>
-        <p style="text-align:center"><img src="./figs/ablation.png" alt="AVSE" height=180px/></p>
-      </figure>
+<div align="justify">
 
+<!-- Abstract -->
+<h3>Abstract</h3>
+In expressive and controllable Text-to-Speech (TTS), explicit prosodic features significantly improve the naturalness and controllability of synthesised speech. However, manual prosody annotation is labor-intensive and inconsistent. To address this issue, a two-stage automatic annotation pipeline is novelly proposed in this paper. In the first stage, we use contrastive pretraining of Speech-Silence and Word-Punctuation (SSWP) pairs to enhance prosodic information in latent representations. In the second stage, we build a multi-modal prosody annotator, comprising pretrained encoders, a text-speech fusing scheme, and a sequence classifier. Experiments on English prosodic boundaries demonstrate that our method achieves state-of-the-art (SOTA) performance with 0.72 and 0.93 f1 score for Prosodic Word and Prosodic Phrase boundary respectively, while bearing remarkable robustness to data scarcity.      
 
-      <!-- Subjective Evaluation -->
-      <h3>Subjective Evaluation</h3>
-      We conduct an AB Preference evaluation on an open-source corpus of an unseen speaker, LJSpeech, using the Multi-modal Baseline and Proposed Work to annotate the prosodic boundaries of the entire corpus automatically. Both systems are trained using Conformer-FastSpeech2 and Hifi-GAN, with a 16-dimension embedding encoding the prosodic boundary labels concatenated to the phone embedding as input. 30 native speakers are asked to compare the 30 utterances from each system and choose the one they prefer. Our proposed work achieves a 7.58\% improvement in AB Preference compared with the previous benchmark.
-      <figure>
-        <p style="text-align:center"><img src="./figs/pref.png" alt="AVSE" height=70px/></p>
-      </figure>
-      Here are part of the speech for MOS test. Besides speech generated by the two TTS systems mentioned above, we also give the raw speech recorded by human, the text, and predicted prosody for reference.
-      </div>
+<!-- Method -->
+<h3>The Architecture of Our Proposed Work</h3>
+<figure>
+  <p style="text-align:center"><img src="./figs/model_v2.3_trimmed.png" alt="AVSE" height=500px/></p>
+</figure>      
 
-      <div align="justify">
-      <h3>Samples Demo</h3>
+<!-- Ojective Evaluation -->
+<h3>Objective Evaluation</h3>
+The results of our proposed work, compared with previous benchmarks, are shown below.
+<figure>
+  <p style="text-align:center"><img src="./figs/objective.png" alt="AVSE" height=140px/></p>
+</figure>
 
-      <table>
-        <tr>
-          <td><b>Demo1</b></td>
-          <td>LJ047-0165</td>
-        </tr>
-        <tr>
-          <td><b>Text</b></td>
-          <td>At the end of the interview, Marina Oswald came into the room, when he observed that she seemed, quote, quite alarmed, end quote, about the visit.</td>
-        </tr>
-        <tr>  
-          <td><b>Prosody</b></td>
-          <td>At the end of the interview, <b>[PW]</b> Marina Oswald came into the room, <b>[PPH]</b> when he observed that she seemed, <b>[PW]</b> quote, <b>[PW]</b> quite alarmed, <b>[PW]</b> end quote, <b>[PW]</b> about the visit. <b>[IPH]</b></td>
-        </tr>
-      </table>
-      <table align="center">
-        <tr>
-          <td style="text-align:center">Multi-modal Baseline</td>
-          <td style="text-align:center">Proposed Work</td>
-          <td style="text-align:center">Ground Truth</td>
-        </tr>
-        <tr>
-          <td>
-            <audio controls>
-              <source src="wav/multimodal/LJ047-0165.wav">
-            </audio>
-          </td>
-          <td>
-            <audio controls>
-              <source src="wav/proposed/LJ047-0165.wav">
-            </audio>
-          </td>
-          <td>
-            <audio controls>
-              <source src="wav/gt/LJ047-0165.wav">
-            </audio>
-          </td>
-        </tr>
-      </table>
-
-      <table>
-        <tr>
-          <td><b>Demo2</b></td>
-          <td>LJ002-0227</td>
-        </tr>
-        <tr>
-          <td><b>Text</b></td>
-          <td>Absence or neglect of divine service, were present as in the King's Bench, but in an exaggerated form.</td>
-        </tr>
-        <tr>
-          <td><b>Prosody</b></td>
-          <td>Absence or neglect of divine service, <b>[PPH]</b> were present <b>[PW]</b> as in the King's Bench, <b>[PPH]</b> but <b>[PPH]</b> in an exaggerated form. <b>[IPH]</b></td>
-        </tr>
-      </table>
-      <table align="center">
-        <tr>
-          <td style="text-align:center">Multi-modal Baseline</td>
-          <td style="text-align:center">Proposed Work</td>
-          <td style="text-align:center">Ground Truth</td>
-        </tr>
-        <tr>
-          <td>
-            <audio controls>
-              <source src="wav/multimodal/LJ002-0227.wav">
-            </audio>
-          </td>
-          <td>
-            <audio controls>
-              <source src="wav/proposed/LJ002-0227.wav">
-            </audio>
-          </td>
-          <td>
-            <audio controls>
-              <source src="wav/gt/LJ002-0227.wav">
-            </audio>
-          </td>
-        </tr>
-      </table>
-
-      <table>
-        <tr>
-          <td><b>Demo3</b></td>
-          <td>LJ006-0028</td>
-        </tr>
-        <tr>
-          <td><b>Text</b></td>
-          <td>Mister Crawford was thoroughly versed in the still imperfectly understood science of prison management, and fully qualified for his new duties.</td>
-        </tr>
-        <tr>  
-          <td><b>Prosody</b></td>
-          <td>Mister Crawford was thoroughly versed <b>[PW]</b> in the still imperfectly understood science of prison management, <b>[PPH]</b> and fully qualified <b>[PW]</b> for his new duties. <b>[IPH]</b></td>
-        </tr>
-      </table>
-      <table align="center">
-        <tr>
-          <td style="text-align:center">Multi-modal Baseline</td>
-          <td style="text-align:center">Proposed Work</td>
-          <td style="text-align:center">Ground Truth</td>
-        </tr>
-        <tr>
-          <td>
-            <audio controls>
-              <source src="wav/multimodal/LJ006-0028.wav">
-            </audio>
-          </td>
-          <td>
-            <audio controls>
-              <source src="wav/proposed/LJ006-0028.wav">
-            </audio>
-          </td>
-          <td>
-            <audio controls>
-              <source src="wav/gt/LJ006-0028.wav">
-            </audio>
-          </td>
-        </tr>
-      </table>
-
-      <table>
-        <tr>
-          <td><b>Demo4</b></td>
-          <td>LJ006-0140</td>
-        </tr>
-        <tr>
-          <td><b>Text</b></td>
-          <td>Evidence was given before the inspectors of eight or ten prisoners seen giddy drunk, not able to sit upon forms.</td>
-        </tr>
-        <tr>  
-          <td><b>Prosody</b></td>
-          <td>Evidence was given before the inspectors of eight or ten prisoners <b>[PW]</b> seen <b>[PW]</b> giddy drunk, <b>[PPH]</b> not able to sit upon forms. <b>[IPH]</b></td>
-        </tr>
-      </table>
-      <table align="center">
-        <tr>
-          <td style="text-align:center">Multi-modal Baseline</td>
-          <td style="text-align:center">Proposed Work</td>
-          <td style="text-align:center">Ground Truth</td>
-        </tr>
-        <tr>
-          <td>
-            <audio controls>
-              <source src="wav/multimodal/LJ006-0140.wav">
-            </audio>
-          </td>
-          <td>
-            <audio controls>
-              <source src="wav/proposed/LJ006-0140.wav">
-            </audio>
-          </td>
-          <td>
-            <audio controls>
-              <source src="wav/gt/LJ006-0140.wav">
-            </audio>
-          </td>
-        </tr>
-      </table>
-
-      <table>
-        <tr>
-          <td><b>Demo5</b></td>
-          <td>LJ007-0121</td>
-        </tr>
-        <tr>
-          <td><b>Text</b></td>
-          <td>There were no restraints, cards and backgammon were played, and the time passed in feasting and revelry.</td>
-        </tr>
-        <tr>  
-          <td><b>Prosody</b></td>
-          <td>There were no restraints, <b>[PPH]</b> cards and backgammon were played, <b>[PPH]</b> and the time passed in feasting and revelry. <b>[IPH]</b></td>
-        </tr>
-      </table>
-      <table align="center">
-        <tr>
-          <td style="text-align:center">Multi-modal Baseline</td>
-          <td style="text-align:center">Proposed Work</td>
-          <td style="text-align:center">Ground Truth</td>
-        </tr>
-        <tr>
-          <td>
-            <audio controls>
-              <source src="wav/multimodal/LJ007-0121.wav">
-            </audio>
-          </td>
-          <td>
-            <audio controls>
-              <source src="wav/proposed/LJ007-0121.wav">
-            </audio>
-          </td>
-          <td>
-            <audio controls>
-              <source src="wav/gt/LJ007-0121.wav">
-            </audio>
-          </td>
-        </tr>
-      </table>
-
-      <table>
-        <tr>
-          <td><b>Demo6</b></td>
-          <td>LJ013-0191</td>
-        </tr>
-        <tr>
-          <td><b>Text</b></td>
-          <td>All this was evidence sufficient to warrant Courvoisier's committal for trial;</td>
-        </tr>
-        <tr>  
-          <td><b>Prosody</b></td>
-          <td>All <b>[PW]</b> this was evidence sufficient to warrant Courvoisier's committal for trial; <b>[IPH]</b></td>
-        </tr>
-      </table>
-      <table align="center">
-        <tr>
-          <td style="text-align:center">Multi-modal Baseline</td>
-          <td style="text-align:center">Proposed Work</td>
-          <td style="text-align:center">Ground Truth</td>
-        </tr>
-        <tr>
-          <td>
-            <audio controls>
-              <source src="wav/multimodal/LJ013-0191.wav">
-            </audio>
-          </td>
-          <td>
-            <audio controls>
-              <source src="wav/proposed/LJ013-0191.wav">
-            </audio>
-          </td>
-          <td>
-            <audio controls>
-              <source src="wav/gt/LJ013-0191.wav">
-            </audio>
-          </td>
-        </tr>
-      </table>
+<!-- Ablaion Studies -->
+<h3>Ablation Studies</h3>
+We conduct extensive ablation studies to prove the efficacy of each module in our proposed work, as shown below.
+<figure>
+  <p style="text-align:center"><img src="./figs/ablation.png" alt="AVSE" height=180px/></p>
+</figure>
 
 
+<!-- Subjective Evaluation -->
+<h3>Subjective Evaluation</h3>
+We conduct an AB Preference evaluation on an open-source corpus of an unseen speaker, LJSpeech, using the Multi-modal Baseline and Proposed Work to annotate the prosodic boundaries of the entire corpus automatically. Both systems are trained using Conformer-FastSpeech2 and Hifi-GAN, with a 16-dimension embedding encoding the prosodic boundary labels concatenated to the phone embedding as input. 30 native speakers are asked to compare the 30 utterances from each system and choose the one they prefer. Our proposed work achieves a 7.58\% improvement in AB Preference compared with the previous benchmark.
+<figure>
+  <p style="text-align:center"><img src="./figs/pref.png" alt="AVSE" height=70px/></p>
+</figure>
+Here are part of the speech for MOS test. Besides speech generated by the two TTS systems mentioned above, we also give the raw speech recorded by human, the text, and predicted prosody for reference.
+</div>
 
-      </div>
-</body>
-</html>
+<div align="justify">
+<h3>Samples Demo</h3>
+
+<table>
+  <tr>
+    <td><b>Demo1</b></td>
+    <td>LJ047-0165</td>
+  </tr>
+  <tr>
+    <td><b>Text</b></td>
+    <td>At the end of the interview, Marina Oswald came into the room, when he observed that she seemed, quote, quite alarmed, end quote, about the visit.</td>
+  </tr>
+  <tr>  
+    <td><b>Prosody</b></td>
+    <td>At the end of the interview, <b>[PW]</b> Marina Oswald came into the room, <b>[PPH]</b> when he observed that she seemed, <b>[PW]</b> quote, <b>[PW]</b> quite alarmed, <b>[PW]</b> end quote, <b>[PW]</b> about the visit. <b>[IPH]</b></td>
+  </tr>
+</table>
+<table align="center">
+  <tr>
+    <td style="text-align:center">Multi-modal Baseline</td>
+    <td style="text-align:center">Proposed Work</td>
+    <td style="text-align:center">Ground Truth</td>
+  </tr>
+  <tr>
+    <td>
+      <audio controls>
+        <source src="wav/multimodal/LJ047-0165.wav">
+      </audio>
+    </td>
+    <td>
+      <audio controls>
+        <source src="wav/proposed/LJ047-0165.wav">
+      </audio>
+    </td>
+    <td>
+      <audio controls>
+        <source src="wav/gt/LJ047-0165.wav">
+      </audio>
+    </td>
+  </tr>
+</table>
+
+<table>
+  <tr>
+    <td><b>Demo2</b></td>
+    <td>LJ002-0227</td>
+  </tr>
+  <tr>
+    <td><b>Text</b></td>
+    <td>Absence or neglect of divine service, were present as in the King's Bench, but in an exaggerated form.</td>
+  </tr>
+  <tr>
+    <td><b>Prosody</b></td>
+    <td>Absence or neglect of divine service, <b>[PPH]</b> were present <b>[PW]</b> as in the King's Bench, <b>[PPH]</b> but <b>[PPH]</b> in an exaggerated form. <b>[IPH]</b></td>
+  </tr>
+</table>
+<table align="center">
+  <tr>
+    <td style="text-align:center">Multi-modal Baseline</td>
+    <td style="text-align:center">Proposed Work</td>
+    <td style="text-align:center">Ground Truth</td>
+  </tr>
+  <tr>
+    <td>
+      <audio controls>
+        <source src="wav/multimodal/LJ002-0227.wav">
+      </audio>
+    </td>
+    <td>
+      <audio controls>
+        <source src="wav/proposed/LJ002-0227.wav">
+      </audio>
+    </td>
+    <td>
+      <audio controls>
+        <source src="wav/gt/LJ002-0227.wav">
+      </audio>
+    </td>
+  </tr>
+</table>
+
+<table>
+  <tr>
+    <td><b>Demo3</b></td>
+    <td>LJ006-0028</td>
+  </tr>
+  <tr>
+    <td><b>Text</b></td>
+    <td>Mister Crawford was thoroughly versed in the still imperfectly understood science of prison management, and fully qualified for his new duties.</td>
+  </tr>
+  <tr>  
+    <td><b>Prosody</b></td>
+    <td>Mister Crawford was thoroughly versed <b>[PW]</b> in the still imperfectly understood science of prison management, <b>[PPH]</b> and fully qualified <b>[PW]</b> for his new duties. <b>[IPH]</b></td>
+  </tr>
+</table>
+<table align="center">
+  <tr>
+    <td style="text-align:center">Multi-modal Baseline</td>
+    <td style="text-align:center">Proposed Work</td>
+    <td style="text-align:center">Ground Truth</td>
+  </tr>
+  <tr>
+    <td>
+      <audio controls>
+        <source src="wav/multimodal/LJ006-0028.wav">
+      </audio>
+    </td>
+    <td>
+      <audio controls>
+        <source src="wav/proposed/LJ006-0028.wav">
+      </audio>
+    </td>
+    <td>
+      <audio controls>
+        <source src="wav/gt/LJ006-0028.wav">
+      </audio>
+    </td>
+  </tr>
+</table>
+
+<table>
+  <tr>
+    <td><b>Demo4</b></td>
+    <td>LJ006-0140</td>
+  </tr>
+  <tr>
+    <td><b>Text</b></td>
+    <td>Evidence was given before the inspectors of eight or ten prisoners seen giddy drunk, not able to sit upon forms.</td>
+  </tr>
+  <tr>  
+    <td><b>Prosody</b></td>
+    <td>Evidence was given before the inspectors of eight or ten prisoners <b>[PW]</b> seen <b>[PW]</b> giddy drunk, <b>[PPH]</b> not able to sit upon forms. <b>[IPH]</b></td>
+  </tr>
+</table>
+<table align="center">
+  <tr>
+    <td style="text-align:center">Multi-modal Baseline</td>
+    <td style="text-align:center">Proposed Work</td>
+    <td style="text-align:center">Ground Truth</td>
+  </tr>
+  <tr>
+    <td>
+      <audio controls>
+        <source src="wav/multimodal/LJ006-0140.wav">
+      </audio>
+    </td>
+    <td>
+      <audio controls>
+        <source src="wav/proposed/LJ006-0140.wav">
+      </audio>
+    </td>
+    <td>
+      <audio controls>
+        <source src="wav/gt/LJ006-0140.wav">
+      </audio>
+    </td>
+  </tr>
+</table>
+
+<table>
+  <tr>
+    <td><b>Demo5</b></td>
+    <td>LJ007-0121</td>
+  </tr>
+  <tr>
+    <td><b>Text</b></td>
+    <td>There were no restraints, cards and backgammon were played, and the time passed in feasting and revelry.</td>
+  </tr>
+  <tr>  
+    <td><b>Prosody</b></td>
+    <td>There were no restraints, <b>[PPH]</b> cards and backgammon were played, <b>[PPH]</b> and the time passed in feasting and revelry. <b>[IPH]</b></td>
+  </tr>
+</table>
+<table align="center">
+  <tr>
+    <td style="text-align:center">Multi-modal Baseline</td>
+    <td style="text-align:center">Proposed Work</td>
+    <td style="text-align:center">Ground Truth</td>
+  </tr>
+  <tr>
+    <td>
+      <audio controls>
+        <source src="wav/multimodal/LJ007-0121.wav">
+      </audio>
+    </td>
+    <td>
+      <audio controls>
+        <source src="wav/proposed/LJ007-0121.wav">
+      </audio>
+    </td>
+    <td>
+      <audio controls>
+        <source src="wav/gt/LJ007-0121.wav">
+      </audio>
+    </td>
+  </tr>
+</table>
+
+<table>
+  <tr>
+    <td><b>Demo6</b></td>
+    <td>LJ013-0191</td>
+  </tr>
+  <tr>
+    <td><b>Text</b></td>
+    <td>All this was evidence sufficient to warrant Courvoisier's committal for trial;</td>
+  </tr>
+  <tr>  
+    <td><b>Prosody</b></td>
+    <td>All <b>[PW]</b> this was evidence sufficient to warrant Courvoisier's committal for trial; <b>[IPH]</b></td>
+  </tr>
+</table>
+<table align="center">
+  <tr>
+    <td style="text-align:center">Multi-modal Baseline</td>
+    <td style="text-align:center">Proposed Work</td>
+    <td style="text-align:center">Ground Truth</td>
+  </tr>
+  <tr>
+    <td>
+      <audio controls>
+        <source src="wav/multimodal/LJ013-0191.wav">
+      </audio>
+    </td>
+    <td>
+      <audio controls>
+        <source src="wav/proposed/LJ013-0191.wav">
+      </audio>
+    </td>
+    <td>
+      <audio controls>
+        <source src="wav/gt/LJ013-0191.wav">
+      </audio>
+    </td>
+  </tr>
+</table>
+
+</div>
