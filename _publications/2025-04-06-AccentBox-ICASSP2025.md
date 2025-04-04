@@ -2,6 +2,7 @@
 title: "AccentBox: Towards High-Fidelity Zero-Shot Accent  Generation"
 collection: publications
 category: conferences
+author: '<b>Jinzuomu Zhong</b>, Korin Richmond, Zhiba Su, Siqi Sun'
 excerpt: 'Accent Generation, Zero-Shot TTS, Accent Identification'
 date: 2025/4/6
 venue: 'ICASSP 2025'

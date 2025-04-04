@@ -2,6 +2,7 @@
 title: "Multi-Modal Automatic Prosody Annotation with Contrastive Pretraining of Speech-Silence and Word-Punctuation"
 collection: publications
 category: conferences
+author: '<b>Jinzuomu Zhong</b>, Yang Li, Hui Huang, Korin Richmond, Jie Liu, Zhiba Su, Jing Guo, Benlai Tang, Fengjie Zhu'
 excerpt: 'Prosody Annotation, Contrastive Learning, Controllable Speech Synthesis'
 date: 2024/9/1
 venue: 'Interspeech 2024'
