@@ -32,10 +32,10 @@ permalink: /Accent-Generation-EdinburghScienceFestival2025
 
           </div>
         </div>
-        <p>
+        <!-- <p>
           <b>Abstract.</b>
           xxx xxx
-        </p>
+        </p> -->
       </div>
 
       <div class="container pt-5 mt-5 shadow p-5 mb-5 bg-white rounded">
@@ -59,7 +59,7 @@ permalink: /Accent-Generation-EdinburghScienceFestival2025
           <button
             class="nav-link"
             data-bs-toggle="tab"
-            data-bs-target="#librispeech-box"
+            data-bs-target="#inherent-box"
             type="button"
             role="tab"
           >
@@ -71,7 +71,7 @@ permalink: /Accent-Generation-EdinburghScienceFestival2025
           <button
             class="nav-link"
             data-bs-toggle="tab"
-            data-bs-target="#librispeech-box"
+            data-bs-target="#cross-box"
             type="button"
             role="tab"
           >
@@ -80,8 +80,352 @@ permalink: /Accent-Generation-EdinburghScienceFestival2025
         </li>
       </ul>
 
+      <div
+        id="inherent-box"
+        role="tabpanel"
+        class="tab-pane fade container pt-5 shadow p-5 mb-5 bg-white rounded"
+      >
+        <h2 id="inherent" style="text-align: center">
+          Betraying Scottish Accents
+        </h2>
+        <p>
+          We asked two <b>Current TTS</b> systems and our <b>AccentBox</b>, to mimic a <b>Scottish</b> speaker's voice.
+          
+          <div class="card card-body ditto-card">
+            <b>Mimic the voice/accent in the following audio:</b><br>
+            <audio
+              controls="controls"
+              preload="none"
+              src="{{ 'Accent-Generation-EdinburghScienceFestival2025/audios/VALLE-X/Scottish_p234/p234_024_prompt.wav' | relative_url }}"
+              >
+            </audio>
+            <p style="margin-top: 0em; margin-bottom: 0;">
+              Transcript: This is a very common type of bow, one showing mainly red and yellow, with little or no green or blue.
+            </p>
+          </div>
+        
+        </p>
+        <div class="card card-body ditto-card">
+          <div class="ditto-sample-box">
+            <b>Generated Audios:</b><br>
+            <div class="table-responsive pt-3">
+              <table class="table table-hover pt-2">
+                <thead>
+                  <tr>
+                    <th>Text</th>
+                    <th>Current TTS 1</th>
+                    <th>Current TTS 2</th>
+                    <th>AccentBox</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td data-label="Text">
+                      Well, here's a story for you.
+                    </td>
+                    <td data-label="vall-e-x">
+                      <audio
+                        controls="controls"
+                        preload="none"
+                        src="{{ 'Accent-Generation-EdinburghScienceFestival2025/audios/VALLE-X/Scottish_p234/stimuli01.wav' | relative_url }}"
+                      ></audio>
+                    </td>
+                    <td data-label="vits">
+                      <audio
+                        controls="controls"
+                        preload="none"
+                        src="{{ 'Accent-Generation-EdinburghScienceFestival2025/audios/Baseline_InherentAccent/Scottish_p234/stimuli_01.wav' | relative_url }}"
+                      ></audio>
+                    </td>
+                    <td data-label="accentbox">
+                      <audio
+                        controls="controls"
+                        preload="none"
+                        src="{{ 'Accent-Generation-EdinburghScienceFestival2025/audios/AccentBox_InherentAccent/Scottish_p234/stimuli_01.wav' | relative_url }}"
+                      ></audio>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td data-label="Text">
+                      Sarah Perry was a veterinary nurse who had been working daily at an old zoo in a deserted district of the territory.
+                    </td>
+                    <td data-label="vall-e-x">
+                      <audio
+                        controls="controls"
+                        preload="none"
+                        src="{{ 'Accent-Generation-EdinburghScienceFestival2025/audios/VALLE-X/Scottish_p234/stimuli02.wav' | relative_url }}"
+                      ></audio>
+                    </td>
+                    <td data-label="vits">
+                      <audio
+                        controls="controls"
+                        preload="none"
+                        src="{{ 'Accent-Generation-EdinburghScienceFestival2025/audios/Baseline_InherentAccent/Scottish_p234/stimuli_02.wav' | relative_url }}"
+                      ></audio>
+                    </td>
+                    <td data-label="accentbox">
+                      <audio
+                        controls="controls"
+                        preload="none"
+                        src="{{ 'Accent-Generation-EdinburghScienceFestival2025/audios/AccentBox_InherentAccent/Scottish_p234/stimuli_02.wav' | relative_url }}"
+                      ></audio>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td data-label="Text">
+                      So, she was very happy to start a new job at a superb private practice in North Square near the Duke Street Tower.
+                    </td>
+                    <td data-label="vall-e-x">
+                      <audio
+                        controls="controls"
+                        preload="none"
+                        src="{{ 'Accent-Generation-EdinburghScienceFestival2025/audios/VALLE-X/Scottish_p234/stimuli03.wav' | relative_url }}"
+                      ></audio>
+                    </td>
+                    <td data-label="vits">
+                      <audio
+                        controls="controls"
+                        preload="none"
+                        src="{{ 'Accent-Generation-EdinburghScienceFestival2025/audios/Baseline_InherentAccent/Scottish_p234/stimuli_03.wav' | relative_url }}"
+                      ></audio>
+                    </td>
+                    <td data-label="accentbox">
+                      <audio
+                        controls="controls"
+                        preload="none"
+                        src="{{ 'Accent-Generation-EdinburghScienceFestival2025/audios/AccentBox_InherentAccent/Scottish_p234/stimuli_03.wav' | relative_url }}"
+                      ></audio>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td data-label="Text">
+                      That area was much nearer for her and more to her liking.
+                    </td>
+                    <td data-label="vall-e-x">
+                      <audio
+                        controls="controls"
+                        preload="none"
+                        src="{{ 'Accent-Generation-EdinburghScienceFestival2025/audios/VALLE-X/Scottish_p234/stimuli04.wav' | relative_url }}"
+                      ></audio>
+                    </td>
+                    <td data-label="vits">
+                      <audio
+                        controls="controls"
+                        preload="none"
+                        src="{{ 'Accent-Generation-EdinburghScienceFestival2025/audios/Baseline_InherentAccent/Scottish_p234/stimuli_04.wav' | relative_url }}"
+                      ></audio>
+                    </td>
+                    <td data-label="accentbox">
+                      <audio
+                        controls="controls"
+                        preload="none"
+                        src="{{ 'Accent-Generation-EdinburghScienceFestival2025/audios/AccentBox_InherentAccent/Scottish_p234/stimuli_04.wav' | relative_url }}"
+                      ></audio>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td data-label="Text">
+                      Even so, on her first morning, she felt stressed.
+                    </td>
+                    <td data-label="vall-e-x">
+                      <audio
+                        controls="controls"
+                        preload="none"
+                        src="{{ 'Accent-Generation-EdinburghScienceFestival2025/audios/VALLE-X/Scottish_p234/stimuli05.wav' | relative_url }}"
+                      ></audio>
+                    </td>
+                    <td data-label="vits">
+                      <audio
+                        controls="controls"
+                        preload="none"
+                        src="{{ 'Accent-Generation-EdinburghScienceFestival2025/audios/Baseline_InherentAccent/Scottish_p234/stimuli_05.wav' | relative_url }}"
+                      ></audio>
+                    </td>
+                    <td data-label="accentbox">
+                      <audio
+                        controls="controls"
+                        preload="none"
+                        src="{{ 'Accent-Generation-EdinburghScienceFestival2025/audios/AccentBox_InherentAccent/Scottish_p234/stimuli_05.wav' | relative_url }}"
+                      ></audio>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+        <p style="margin-top: 3em; margin-bottom: 0;"></p>
+        <h2 id="inherent" style="text-align: center">
+          Betraying English Accents
+        </h2>
+        <p>
+          We asked two <b>Current TTS</b> systems and our <b>AccentBox</b>, to mimic an <b>English</b> speaker's voice.
+          
+          <div class="card card-body ditto-card">
+            <b>Mimic the voice/accent in the following audio:</b><br>
+            <audio
+              controls="controls"
+              preload="none"
+              src="{{ 'Accent-Generation-EdinburghScienceFestival2025/audios/VALLE-X/English_p225/p225_024_prompt.wav' | relative_url }}"
+              >
+            </audio>
+            <p style="margin-top: 0em; margin-bottom: 0;">
+              Transcript: This is a very common type of bow, one showing mainly red and yellow, with little or no green or blue.
+            </p>
+          </div>
+        
+        </p>
+        <div class="card card-body ditto-card">
+          <div class="ditto-sample-box">
+            <b>Generated Audios:</b><br>
+            <div class="table-responsive pt-3">
+              <table class="table table-hover pt-2">
+                <thead>
+                  <tr>
+                    <th>Text</th>
+                    <th>Current TTS 1</th>
+                    <th>Current TTS 2</th>
+                    <th>AccentBox</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td data-label="Text">
+                      Well, here's a story for you.
+                    </td>
+                    <td data-label="vall-e-x">
+                      <audio
+                        controls="controls"
+                        preload="none"
+                        src="{{ 'Accent-Generation-EdinburghScienceFestival2025/audios/VALLE-X/English_p225/stimuli01.wav' | relative_url }}"
+                      ></audio>
+                    </td>
+                    <td data-label="vits">
+                      <audio
+                        controls="controls"
+                        preload="none"
+                        src="{{ 'Accent-Generation-EdinburghScienceFestival2025/audios/Baseline_InherentAccent/English_p225/stimuli_01.wav' | relative_url }}"
+                      ></audio>
+                    </td>
+                    <td data-label="accentbox">
+                      <audio
+                        controls="controls"
+                        preload="none"
+                        src="{{ 'Accent-Generation-EdinburghScienceFestival2025/audios/AccentBox_InherentAccent/English_p225/stimuli_01.wav' | relative_url }}"
+                      ></audio>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td data-label="Text">
+                      Sarah Perry was a veterinary nurse who had been working daily at an old zoo in a deserted district of the territory.
+                    </td>
+                    <td data-label="vall-e-x">
+                      <audio
+                        controls="controls"
+                        preload="none"
+                        src="{{ 'Accent-Generation-EdinburghScienceFestival2025/audios/VALLE-X/English_p225/stimuli02.wav' | relative_url }}"
+                      ></audio>
+                    </td>
+                    <td data-label="vits">
+                      <audio
+                        controls="controls"
+                        preload="none"
+                        src="{{ 'Accent-Generation-EdinburghScienceFestival2025/audios/Baseline_InherentAccent/English_p225/stimuli_02.wav' | relative_url }}"
+                      ></audio>
+                    </td>
+                    <td data-label="accentbox">
+                      <audio
+                        controls="controls"
+                        preload="none"
+                        src="{{ 'Accent-Generation-EdinburghScienceFestival2025/audios/AccentBox_InherentAccent/English_p225/stimuli_02.wav' | relative_url }}"
+                      ></audio>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td data-label="Text">
+                      So, she was very happy to start a new job at a superb private practice in North Square near the Duke Street Tower.
+                    </td>
+                    <td data-label="vall-e-x">
+                      <audio
+                        controls="controls"
+                        preload="none"
+                        src="{{ 'Accent-Generation-EdinburghScienceFestival2025/audios/VALLE-X/English_p225/stimuli03.wav' | relative_url }}"
+                      ></audio>
+                    </td>
+                    <td data-label="vits">
+                      <audio
+                        controls="controls"
+                        preload="none"
+                        src="{{ 'Accent-Generation-EdinburghScienceFestival2025/audios/Baseline_InherentAccent/English_p225/stimuli_03.wav' | relative_url }}"
+                      ></audio>
+                    </td>
+                    <td data-label="accentbox">
+                      <audio
+                        controls="controls"
+                        preload="none"
+                        src="{{ 'Accent-Generation-EdinburghScienceFestival2025/audios/AccentBox_InherentAccent/English_p225/stimuli_03.wav' | relative_url }}"
+                      ></audio>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td data-label="Text">
+                      That area was much nearer for her and more to her liking.
+                    </td>
+                    <td data-label="vall-e-x">
+                      <audio
+                        controls="controls"
+                        preload="none"
+                        src="{{ 'Accent-Generation-EdinburghScienceFestival2025/audios/VALLE-X/English_p225/stimuli04.wav' | relative_url }}"
+                      ></audio>
+                    </td>
+                    <td data-label="vits">
+                      <audio
+                        controls="controls"
+                        preload="none"
+                        src="{{ 'Accent-Generation-EdinburghScienceFestival2025/audios/Baseline_InherentAccent/English_p225/stimuli_04.wav' | relative_url }}"
+                      ></audio>
+                    </td>
+                    <td data-label="accentbox">
+                      <audio
+                        controls="controls"
+                        preload="none"
+                        src="{{ 'Accent-Generation-EdinburghScienceFestival2025/audios/AccentBox_InherentAccent/English_p225/stimuli_04.wav' | relative_url }}"
+                      ></audio>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td data-label="Text">
+                      Even so, on her first morning, she felt stressed.
+                    </td>
+                    <td data-label="vall-e-x">
+                      <audio
+                        controls="controls"
+                        preload="none"
+                        src="{{ 'Accent-Generation-EdinburghScienceFestival2025/audios/VALLE-X/English_p225/stimuli05.wav' | relative_url }}"
+                      ></audio>
+                    </td>
+                    <td data-label="vits">
+                      <audio
+                        controls="controls"
+                        preload="none"
+                        src="{{ 'Accent-Generation-EdinburghScienceFestival2025/audios/Baseline_InherentAccent/English_p225/stimuli_05.wav' | relative_url }}"
+                      ></audio>
+                    </td>
+                    <td data-label="accentbox">
+                      <audio
+                        controls="controls"
+                        preload="none"
+                        src="{{ 'Accent-Generation-EdinburghScienceFestival2025/audios/AccentBox_InherentAccent/English_p225/stimuli_05.wav' | relative_url }}"
+                      ></audio>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
 
-      
     </article>
   </main>
 </div>
