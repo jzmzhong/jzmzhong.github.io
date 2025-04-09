@@ -76,7 +76,7 @@
     {% elsif post.citation %}
       <p>Recommended citation: {{ post.citation }}</p>
     
-    {% elsif post.paperurl and post.arxivurl and post.demourl and post.codeurl and post.mscthesisurl%}
+    {% elsif post.paperurl and post.arxivurl and post.demourl and post.codeurl and post.mscthesisurl %}
       <p><a href=" {{ post.paperurl }} ">Paper</a> | <a href=" {{ post.arxivurl }} ">Arxiv</a> | <a href=" {{ post.demourl }} ">Demo</a> | <a href=" {{ post.codeurl }} ">Code</a> | <a href=" {{ post.mscthesisurl }} ">MSc Thesis</a> </p>
     {% elsif post.paperurl and post.arxivurl and post.demourl and post.codeurl %}
       <p><a href=" {{ post.paperurl }} ">Paper</a> | <a href=" {{ post.arxivurl }} ">Arxiv</a> | <a href=" {{ post.demourl }} ">Demo</a> | <a href=" {{ post.codeurl }} ">Code</a></p>
