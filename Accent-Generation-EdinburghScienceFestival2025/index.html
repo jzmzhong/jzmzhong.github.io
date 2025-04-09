@@ -8,15 +8,18 @@ permalink: /Accent-Generation-EdinburghScienceFestival2025
   <header role="banner"></header>
   <main role="main">
     <article itemscope="" itemtype="https://schema.org/BlogPosting">
+      
+      <!-- Intro -->
       <div class="container pt-5 mt-5 shadow p-5 mb-5 bg-white rounded">
         <div class="text-center">
+          
           <h2> Accent Generation - Challenges and Evaluation </h2>
           <p class="lead fw-bold">
             |<span
               style="padding: .375rem .75rem; font-size: 1.2rem;">Edinburgh Science Festival 2025</span>|
           </p>
+          
           <div class="author">
-            
             <span><a target="_blank" href="https://jzmzhong.github.io/"><b>Jinzuomu Zhong</b></a><sup>1</sup>,</span>
             <span><a target="_blank" href="https://homepages.inf.ed.ac.uk/korin/site/home/">Korin Richmond</a><sup>1</sup>,</span>
             <span><a target="_blank" href="https://suyuan97.github.io/">Suyuan Liu</a><sup>2</sup>,</span>
@@ -29,16 +32,20 @@ permalink: /Accent-Generation-EdinburghScienceFestival2025
             <p style="margin-top: 0.5em; margin-bottom: 0;"><span><sup>1</sup><a target="_blank" href="https://www.cstr.ed.ac.uk/">Centre for Speech Technology Research, the University of Edinburgh, UK</a></span></p>
             <p style="margin-bottom: 0;"><span><sup>2</sup><a target="_blank" href="https://linguistics.ubc.ca/">Department of Linguistics, the University of British Columbia, Canada</a></span></p>
             <p style="margin-bottom: 1;"><span><sup>3</sup>Independent Researcher</span></p>
-
           </div>
+
         </div>
+        
         <!-- <p>
           <b>Abstract.</b>
           xxx xxx
         </p> -->
+      
       </div>
 
+      <!-- Model -->
       <div class="container pt-5 mt-5 shadow p-5 mb-5 bg-white rounded">
+        
         <h2 id="model-overview" style="text-align: center">
           Model Overview
         </h2>
@@ -52,9 +59,12 @@ permalink: /Accent-Generation-EdinburghScienceFestival2025
           <img src="{{ 'Accent-Generation-EdinburghScienceFestival2025/asset/model_accentbox.jpg' | relative_url }}" height="250" width="800"
             class="img-fluid" />
         </p>
+
       </div>
 
+      <!-- Navigation Tabs -->
       <ul class="nav nav-tabs" id="myTab" role="tablist">
+        
         <li class="nav-item" role="presentation">
           <button
             class="nav-link active"
@@ -92,7 +102,11 @@ permalink: /Accent-Generation-EdinburghScienceFestival2025
         </li>
 
       </ul>
+
+      <!-- Tabs -->
       <div class="tab-content" id="myTabContent">
+        
+        <!-- Section I -->
         <div
           id="inherent-box"
           role="tabpanel"
@@ -113,7 +127,7 @@ permalink: /Accent-Generation-EdinburghScienceFestival2025
                 >
               </audio>
               <p style="margin-top: 0em; margin-bottom: 0;">
-                Transcript: This is a very common type of bow, one showing mainly red and yellow, with little or no green or blue.
+                Transcription: This is a very common type of bow, one showing mainly red and yellow, with little or no green or blue.
               </p>
             </div>
           
@@ -284,7 +298,7 @@ permalink: /Accent-Generation-EdinburghScienceFestival2025
                 >
               </audio>
               <p style="margin-top: 0em; margin-bottom: 0;">
-                Transcript: This is a very common type of bow, one showing mainly red and yellow, with little or no green or blue.
+                Transcription: This is a very common type of bow, one showing mainly red and yellow, with little or no green or blue.
               </p>
             </div>
           
@@ -440,6 +454,7 @@ permalink: /Accent-Generation-EdinburghScienceFestival2025
           </div>
         </div>
 
+        <!-- Section II -->
         <div
           id="cross-box"
           role="tabpanel"
@@ -461,7 +476,7 @@ permalink: /Accent-Generation-EdinburghScienceFestival2025
                 >
               </audio>
               <p style="margin-top: 0em; margin-bottom: 0;">
-                Transcript: This is a very common type of bow, one showing mainly red and yellow, with little or no green or blue.
+                Transcription: This is a very common type of bow, one showing mainly red and yellow, with little or no green or blue.
               </p>
               <p style="margin-top: 0.5em; margin-bottom: 0;">
                 <b>Then convert to various accents!</b><br>
@@ -695,6 +710,7 @@ permalink: /Accent-Generation-EdinburghScienceFestival2025
         
         </div>
         
+        <!-- Section III -->
         <div
           id="evaluation-box"
           role="tabpanel"
@@ -704,6 +720,7 @@ permalink: /Accent-Generation-EdinburghScienceFestival2025
           <h2 id="eval" style="text-align: center">
             Difficulty in Evaluation
           </h2>
+          
           <h3 id="eval" style="text-align: left">
             1. Why Evaluation is Needed?
           </h3>
@@ -744,7 +761,7 @@ permalink: /Accent-Generation-EdinburghScienceFestival2025
               <textarea id="comment" name="comment" rows="5" cols="50" placeholder="Please leave a comment in the text entry box for the selected recording, explaining the specific clue or characteristic you used to judge one recording as being more similar in accent to another."></textarea>
             </form>
           </div>
-          <p style="margin-top: 0.5em; margin-bottom: 0.5em;">These are some of the comments we got. I was not sure how I could use this to meaningfully improve our system.</p>
+          <p style="margin-top: 1em; margin-bottom: 0em;">These are some of the comments we got. I was not sure how I could use this to meaningfully improve our system.</p>
           
           
           <div class="card card-body ditto-card">
@@ -759,6 +776,7 @@ permalink: /Accent-Generation-EdinburghScienceFestival2025
               ...
             </p>
           </div>
+          <br>
           <br>
 
           <h3 id="eval" style="text-align: left">
@@ -886,7 +904,7 @@ permalink: /Accent-Generation-EdinburghScienceFestival2025
             });
           </script>
 
-          <p style="margin-top: 0.5em; margin-bottom: 0.5em;">This is what we got in the end. The darker the color, the more listeners selected these parts (as clues for evaluating accent similarity).</p>
+          <p style="margin-top: 1em; margin-bottom: 0em;">This is what we got in the end. The darker the color, the more listeners selected these parts (as clues for evaluating accent similarity).</p>
           <div class="card card-body ditto-card">
             <p style="text-align: center">
               <img src="{{ 'Accent-Generation-EdinburghScienceFestival2025/asset/span_records.png' | relative_url }}" height="400" width="1200"
@@ -899,15 +917,18 @@ permalink: /Accent-Generation-EdinburghScienceFestival2025
 
     </article>
 
+    <!-- Final -->
     <div class="container pt-5 mt-5 shadow p-5 mb-5 bg-white rounded">
       <div class="text-center">
         <h2> Academic Outputs </h2>
       </div>
       [1] J. Zhong, K. Richmond, Z. Su and S. Sun, "AccentBox: Towards High-Fidelity Zero-Shot Accent Generation," Proc. IEEE International Conference on Acoustics, Speech and Signal Processing (ICASSP) 2025, 1-5, doi: 10.1109/ICASSP49660.2025.10888332.<br>
+      <span><a target="_blank" href="https://ieeexplore.ieee.org/abstract/document/10888332">Paper</a>,</span>
+      <span><a target="_blank" href="https://www.arxiv.org/abs/2409.09098">Arxiv</a>,</span>
       <span><a target="_blank" href="https://github.com/jzmzhong/GenAID/tree/GenAID">Code</a>,</span>
       <span><a target="_blank" href="https://drive.google.com/file/d/1-e6bj5gezeFaHiQo5uTYp81Op2O9xI89/view?usp=drive_link">Video</a>,</span>
       <span><a target="_blank" href="https://drive.google.com/file/d/18WPUs9Ymh3CBgfMOmShU9tiEkX9BgBit/view?usp=drive_link">Slides</a></span>
-      <br><br>
+      <br>
       [2] J. Zhong, S. Liu, D. Wells, and K. Richmond, "Pairwise Evaluation of Accent Similarity in Speech Synthesis," <i>Submitted to Proc. Interspeech 2025</i>
 
       
