@@ -4,7 +4,7 @@ collection: publications
 category: conferences
 author: '<b>Jinzuomu Zhong</b>, Korin Richmond, Zhiba Su, Siqi Sun'
 excerpt: 'Accent Generation, Zero-Shot TTS, Accent Identification'
-date: 2025/4/6
+date: 2024/9/1
 venue: 'ICASSP 2025'
 paperurl: 'https://ieeexplore.ieee.org/abstract/document/10888332'
 arxivurl: 'https://www.arxiv.org/abs/2409.09098'

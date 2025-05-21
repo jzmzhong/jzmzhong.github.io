@@ -80,6 +80,8 @@
       <p><a href=" {{ post.paperurl }} ">Paper</a> | <a href=" {{ post.arxivurl }} ">Arxiv</a> | <a href=" {{ post.demourl }} ">Demo</a> | <a href=" {{ post.codeurl }} ">Code</a> | <a href=" {{ post.mscthesisurl }} ">MSc Thesis</a> </p>
     {% elsif post.paperurl and post.arxivurl and post.demourl and post.codeurl %}
       <p><a href=" {{ post.paperurl }} ">Paper</a> | <a href=" {{ post.arxivurl }} ">Arxiv</a> | <a href=" {{ post.demourl }} ">Demo</a> | <a href=" {{ post.codeurl }} ">Code</a></p>
+    {% elsif post.arxivurl %}
+      <p><a href=" {{ post.arxivurl }} ">Arxiv</a></p>
     
     {% elsif post.paperurl and post.bibtexurl %}
       <p><a href=" {{ post.paperurl }} ">Download Paper</a> | <a href="{{ post.bibtexurl }}">Download Bibtex</a></p>
