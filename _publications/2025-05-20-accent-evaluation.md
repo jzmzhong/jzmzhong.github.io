@@ -6,6 +6,7 @@ author: '<b>Jinzuomu Zhong</b>, Suyuan Liu, Dan Wells, Korin Richmond'
 excerpt: 'Speech Synthesis, Accent, Preference Evaluation, Listening Test, Laboratory Phonetics'
 date: 2025/5/20
 venue: 'Interspeech 2025'
+paperurl: 'https://www.isca-archive.org/interspeech_2025/zhong25c_interspeech.html'
 arxivurl: 'https://arxiv.org/abs/2505.14410'
 ---
 

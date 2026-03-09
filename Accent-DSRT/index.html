@@ -1,0 +1,962 @@
+---
+layout: demo2
+title: Rethinking Discrete Speech Representation Tokens for Accent Generation
+permalink: /Accent-DSRT
+---
+
+<div class="container">
+  <header role="banner"></header>
+  <main role="main">
+    <article itemscope="" itemtype="https://schema.org/BlogPosting">
+      
+      <!-- Intro -->
+      <div class="container pt-5 mt-5 shadow p-5 mb-5 bg-white rounded">
+        <div class="text-center">
+          
+          <h2> Rethinking Discrete Speech Representation Tokens for Accent Generation </h2>
+          <p class="lead fw-bold">
+            |<span
+                style="padding: .375rem .75rem;">Paper Under Review</span>|
+          </p>
+          
+          <div class="author">
+            <span><a target="_blank" href="https://jzmzhong.github.io/"><b>Jinzuomu Zhong</b></a><sup>1</sup>,</span>
+            <span><a target="_blank" href="https://yiwang454.github.io/"><b>Yi Wang</b></a><sup>1</sup>,</span>
+            <span><a target="_blank" href="https://homepages.inf.ed.ac.uk/korin/site/home/">Korin Richmond</a><sup>1</sup>,</span>
+            <span><a target="_blank" href="https://homepages.inf.ed.ac.uk/pbell1/">Peter Bell</a><sup>1</sup></span>
+          </div>
+          
+          <div class="affiliation">
+            <p style="margin-top: 0.5em; margin-bottom: 0;"><span><sup>1</sup><a target="_blank" href="https://www.cstr.ed.ac.uk/">Centre for Speech Technology Research, the University of Edinburgh, UK</a></span></p>
+            <br>
+          </div>
+
+        </div>
+        
+        <h4 id="abstract" style="text-align: center">
+          Abstract
+        </h4>
+        <p id="abstract-content">
+          Discrete Speech Representation Tokens (DSRTs) have become a foundational component in speech generation. While prior work has extensively studied phonetic and speaker information in DSRTs, how accent information is encoded in DSRTs remains largely unexplored. In this paper, we present the first systematic investigation of accent information in DSRTs. We propose a unified evaluation framework that measures both <b>accessibility</b> of accent information via a novel Accent ABX task and <b>recoverability</b> via cross-accent Voice Conversion (VC) resynthesis. Using this framework, we analyse DSRTs derived from several widely used speech representations. Our results reveal that: (1) choice of layers has the most significant impact on retaining accent information, (2) accent information is substantially reduced by ASR supervision; (3) naive codebook size reduction cannot effectively disentangle accent from phonetic and speaker information.
+        </p>
+      
+      </div>
+
+      <!-- Model -->
+      <div class="container pt-5 mt-5 shadow p-5 mb-5 bg-white rounded">
+        
+        <h2 id="framework-overview" style="text-align: center">
+          Evaluation Framework
+        </h2>
+        <p id="framework-description" style="text-align: left">
+          A framework for evaluating the <b>recoverability</b> and <b>accessibility</b> of <i>accent, speaker, and phonetic</i> information in various Discrete Speech Representation Tokens (DSRTs, aka semantic tokens).
+        </p>
+
+        <p style="text-align: center">
+          <img src="{{ 'Accent-DSRT/asset/Pipeline_SSL_Accent_v6.png' | relative_url }}" height="220" width="800"
+            class="img-fluid" />
+        </p>
+
+      </div>
+
+      <div class="container pt-5 mt-5 shadow p-5 mb-5 bg-white rounded">
+        <h2 id="demo-overview" style="text-align: center">
+          Cross-Accent Voice Conversion (Demo)
+        </h2>
+        <p id="demo-description" style="text-align: left">
+          Controlling accent in speech generation is a challenging task. Using the proposed framework and the findings, we propose DSRT design choices that can effectively disentangle accent information from speaker and phonetic information. We demonstrate the effectiveness of these design choices in a Cross-Accent Voice Conversion task, with potential applications to Zero-Shot TTS or SpeechLMs. <br><br>
+          
+          Specifically, We use <i>content tokens</i> to generate accent and voice that are both similar to target speaker, performing <b>Accent-Adaptive Voice Conversion</b>. We use <i>content-accent tokens</i> to generate accent similar to source speaker, but voice similar to target speaker, performing <b>Accent-Preserving Voice Conversion</b>. Both objective and subjective evaluation show superior performance to existing approaches such as Vevo's <i>content and content-style tokens</i>.
+        </p>
+      </div>
+
+      <!-- Navigation Tabs -->
+      <ul class="nav nav-tabs" id="myTab" role="tablist">
+        
+        <li class="nav-item" role="presentation">
+          <button
+            class="nav-link active"
+            data-bs-toggle="tab"
+            data-bs-target="#american-midwest"
+            type="button"
+            role="tab"
+          >
+            Midwestern American -> Southern English
+          </button>
+        </li>
+
+        <li class="nav-item" role="presentation">
+          <button
+            class="nav-link"
+            data-bs-toggle="tab"
+            data-bs-target="#oceanian"
+            type="button"
+            role="tab"
+          >
+            Oceanian -> Southern English
+          </button>
+        </li>
+
+        <li class="nav-item" role="presentation">
+          <button
+            class="nav-link"
+            data-bs-toggle="tab"
+            data-bs-target="#scottish"
+            type="button"
+            role="tab"
+          >
+            Scottish -> Southern English
+          </button>
+        </li>
+
+      </ul>
+
+      <!-- Tabs -->
+      <div class="tab-content" id="myTabContent">
+        
+        
+        <div
+          id="american-midwest"
+          role="tabpanel"
+          class="tab-pane fade show active container pt-5 shadow p-5 mb-5 bg-white rounded"
+        >
+          <h3 id="accent-adaptive" style="text-align: center">
+            Accent-Adaptive Voice Conversion
+          </h3>
+
+          <div class="card card-body ditto-card">
+            <div class="ditto-sample-box">
+              <div class="table-responsive pt-3">
+                <table class="table table-hover pt-2">
+                  <thead>
+                    <tr>
+                      <th></th>
+                      <th>Source</th>
+                      <th>Target</th>
+                      <th>Vevo (content)</th>
+                      <th>Proposed (content)</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+
+                    <!-- Audio Samples - american-midwest - accent-adaptive -->
+                    <div>
+                    <tr>
+                        <td data-label="id">
+                            p311 to p226 <br> utterance 012
+                        </td>
+                        <td data-label="source">
+                            <audio
+                                controls="controls"
+                                preload="none"
+                                src="{{ 'Accent-DSRT/audios/gt_16k/p311/p311_012_mic1.flac' | relative_url }}"
+                            ></audio>
+                        </td>
+                        <td data-label="target">
+                            <audio
+                                controls="controls"
+                                preload="none"
+                                src="{{ 'Accent-DSRT/audios/gt_16k/p226/p226_012_mic1.flac' | relative_url }}"
+                            ></audio>
+                        </td>
+                        <td data-label="vevo">
+                            <audio
+                                controls="controls"
+                                preload="none"
+                                src="{{ 'Accent-DSRT/audios/vevo-content/AmericanMidwest_test/p311_012_mic1_p226.wav' | relative_url }}"
+                            ></audio>
+                        </td>
+                        <td data-label="proposed">
+                            <audio
+                                controls="controls"
+                                preload="none"
+                                src="{{ 'Accent-DSRT/audios/proposed-content/AmericanMidwest_test/p311_012_mic1_p226.wav' | relative_url }}"
+                            ></audio>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td data-label="id">
+                            p311 to p228 <br> utterance 024
+                        </td>
+                        <td data-label="source">
+                            <audio
+                                controls="controls"
+                                preload="none"
+                                src="{{ 'Accent-DSRT/audios/gt_16k/p311/p311_024_mic1.flac' | relative_url }}"
+                            ></audio>
+                        </td>
+                        <td data-label="target">
+                            <audio
+                                controls="controls"
+                                preload="none"
+                                src="{{ 'Accent-DSRT/audios/gt_16k/p228/p228_024_mic1.flac' | relative_url }}"
+                            ></audio>
+                        </td>
+                        <td data-label="vevo">
+                            <audio
+                                controls="controls"
+                                preload="none"
+                                src="{{ 'Accent-DSRT/audios/vevo-content/AmericanMidwest_test/p311_024_mic1_p228.wav' | relative_url }}"
+                            ></audio>
+                        </td>
+                        <td data-label="proposed">
+                            <audio
+                                controls="controls"
+                                preload="none"
+                                src="{{ 'Accent-DSRT/audios/proposed-content/AmericanMidwest_test/p311_024_mic1_p228.wav' | relative_url }}"
+                            ></audio>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td data-label="id">
+                            p333 to p228 <br> utterance 003
+                        </td>
+                        <td data-label="source">
+                            <audio
+                                controls="controls"
+                                preload="none"
+                                src="{{ 'Accent-DSRT/audios/gt_16k/p333/p333_003_mic1.flac' | relative_url }}"
+                            ></audio>
+                        </td>
+                        <td data-label="target">
+                            <audio
+                                controls="controls"
+                                preload="none"
+                                src="{{ 'Accent-DSRT/audios/gt_16k/p228/p228_003_mic1.flac' | relative_url }}"
+                            ></audio>
+                        </td>
+                        <td data-label="vevo">
+                            <audio
+                                controls="controls"
+                                preload="none"
+                                src="{{ 'Accent-DSRT/audios/vevo-content/AmericanMidwest_test/p333_003_mic1_p228.wav' | relative_url }}"
+                            ></audio>
+                        </td>
+                        <td data-label="proposed">
+                            <audio
+                                controls="controls"
+                                preload="none"
+                                src="{{ 'Accent-DSRT/audios/proposed-content/AmericanMidwest_test/p333_003_mic1_p228.wav' | relative_url }}"
+                            ></audio>
+                        </td>
+                    </tr>
+                    </div>
+                    
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+          
+          <h3 id="accent-preserving" style="text-align: center">
+            <br>Accent-Preserving Voice Conversion
+          </h3>
+
+          <div class="card card-body ditto-card">
+            <div class="ditto-sample-box">
+              <div class="table-responsive pt-3">
+                <table class="table table-hover pt-2">
+                  <thead>
+                    <tr>
+                      <th></th>
+                      <th>Source</th>
+                      <th>Target</th>
+                      <th>Vevo (content-style)</th>
+                      <th>Proposed (content-accent)</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+
+                    <!-- Audio Samples - american-midwest - accent-preserving -->
+                    <div>
+                    <tr>
+                        <td data-label="id">
+                            p334 to p226 <br> utterance 006
+                        </td>
+                        <td data-label="source">
+                            <audio
+                                controls="controls"
+                                preload="none"
+                                src="{{ 'Accent-DSRT/audios/gt_16k/p334/p334_006_mic1.flac' | relative_url }}"
+                            ></audio>
+                        </td>
+                        <td data-label="target">
+                            <audio
+                                controls="controls"
+                                preload="none"
+                                src="{{ 'Accent-DSRT/audios/gt_16k/p226/p226_006_mic1.flac' | relative_url }}"
+                            ></audio>
+                        </td>
+                        <td data-label="vevo">
+                            <audio
+                                controls="controls"
+                                preload="none"
+                                src="{{ 'Accent-DSRT/audios/vevo-content-style/AmericanMidwest_test/p334_006_mic1_p226.wav' | relative_url }}"
+                            ></audio>
+                        </td>
+                        <td data-label="proposed">
+                            <audio
+                                controls="controls"
+                                preload="none"
+                                src="{{ 'Accent-DSRT/audios/proposed-content-accent/AmericanMidwest_test/p334_006_mic1_p226.wav' | relative_url }}"
+                            ></audio>
+                        </td>
+                    </tr>
+                    <!-- <tr>
+                        <td data-label="id">
+                            p341 to p228 <br> utterance 017
+                        </td>
+                        <td data-label="source">
+                            <audio
+                                controls="controls"
+                                preload="none"
+                                src="{{ 'Accent-DSRT/audios/gt_16k/p341/p341_017_mic1.flac' | relative_url }}"
+                            ></audio>
+                        </td>
+                        <td data-label="target">
+                            <audio
+                                controls="controls"
+                                preload="none"
+                                src="{{ 'Accent-DSRT/audios/gt_16k/p228/p228_017_mic1.flac' | relative_url }}"
+                            ></audio>
+                        </td>
+                        <td data-label="vevo">
+                            <audio
+                                controls="controls"
+                                preload="none"
+                                src="{{ 'Accent-DSRT/audios/vevo-content-style/AmericanMidwest_test/p341_017_mic1_p228.wav' | relative_url }}"
+                            ></audio>
+                        </td>
+                        <td data-label="proposed">
+                            <audio
+                                controls="controls"
+                                preload="none"
+                                src="{{ 'Accent-DSRT/audios/proposed-content-accent/AmericanMidwest_test/p341_017_mic1_p228.wav' | relative_url }}"
+                            ></audio>
+                        </td>
+                    </tr> -->
+                    <tr>
+                        <td data-label="id">
+                            p333 to p228 <br> utterance 003
+                        </td>
+                        <td data-label="source">
+                            <audio
+                                controls="controls"
+                                preload="none"
+                                src="{{ 'Accent-DSRT/audios/gt_16k/p333/p333_003_mic1.flac' | relative_url }}"
+                            ></audio>
+                        </td>
+                        <td data-label="target">
+                            <audio
+                                controls="controls"
+                                preload="none"
+                                src="{{ 'Accent-DSRT/audios/gt_16k/p228/p228_003_mic1.flac' | relative_url }}"
+                            ></audio>
+                        </td>
+                        <td data-label="vevo">
+                            <audio
+                                controls="controls"
+                                preload="none"
+                                src="{{ 'Accent-DSRT/audios/vevo-content-style/AmericanMidwest_test/p333_003_mic1_p228.wav' | relative_url }}"
+                            ></audio>
+                        </td>
+                        <td data-label="proposed">
+                            <audio
+                                controls="controls"
+                                preload="none"
+                                src="{{ 'Accent-DSRT/audios/proposed-content-accent/AmericanMidwest_test/p333_003_mic1_p228.wav' | relative_url }}"
+                            ></audio>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td data-label="id">
+                            p333 to p225 <br> utterance 009
+                        </td>
+                        <td data-label="source">
+                            <audio
+                                controls="controls"
+                                preload="none"
+                                src="{{ 'Accent-DSRT/audios/gt_16k/p333/p333_009_mic1.flac' | relative_url }}"
+                            ></audio>
+                        </td>
+                        <td data-label="target">
+                            <audio
+                                controls="controls"
+                                preload="none"
+                                src="{{ 'Accent-DSRT/audios/gt_16k/p225/p225_009_mic1.flac' | relative_url }}"
+                            ></audio>
+                        </td>
+                        <td data-label="vevo">
+                            <audio
+                                controls="controls"
+                                preload="none"
+                                src="{{ 'Accent-DSRT/audios/vevo-content-style/AmericanMidwest_test/p333_009_mic1_p225.wav' | relative_url }}"
+                            ></audio>
+                        </td>
+                        <td data-label="proposed">
+                            <audio
+                                controls="controls"
+                                preload="none"
+                                src="{{ 'Accent-DSRT/audios/proposed-content-accent/AmericanMidwest_test/p333_009_mic1_p225.wav' | relative_url }}"
+                            ></audio>
+                        </td>
+                    </tr>
+                    </div>
+
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div
+          id="oceanian"
+          role="tabpanel"
+          class="tab-pane fade container pt-5 shadow p-5 mb-5 bg-white rounded"
+        >
+          <h3 id="accent-adaptive" style="text-align: center">
+            Accent-Adaptive Voice Conversion
+          </h3>
+
+          <div class="card card-body ditto-card">
+            <div class="ditto-sample-box">
+              <div class="table-responsive pt-3">
+                <table class="table table-hover pt-2">
+                  <thead>
+                    <tr>
+                      <th></th>
+                      <th>Source</th>
+                      <th>Target</th>
+                      <th>Vevo (content)</th>
+                      <th>Proposed (content)</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+
+                    <!-- Audio Samples - oceanian - accent-adaptive -->
+                    <div>
+                    <tr>
+                        <td data-label="id">
+                            p335 to p232 <br> utterance 010
+                        </td>
+                        <td data-label="source">
+                            <audio
+                                controls="controls"
+                                preload="none"
+                                src="{{ 'Accent-DSRT/audios/gt_16k/p335/p335_010_mic1.flac' | relative_url }}"
+                            ></audio>
+                        </td>
+                        <td data-label="target">
+                            <audio
+                                controls="controls"
+                                preload="none"
+                                src="{{ 'Accent-DSRT/audios/gt_16k/p232/p232_010_mic1.flac' | relative_url }}"
+                            ></audio>
+                        </td>
+                        <td data-label="vevo">
+                            <audio
+                                controls="controls"
+                                preload="none"
+                                src="{{ 'Accent-DSRT/audios/vevo-content/Oceanian_test/p335_010_mic1_p232.wav' | relative_url }}"
+                            ></audio>
+                        </td>
+                        <td data-label="proposed">
+                            <audio
+                                controls="controls"
+                                preload="none"
+                                src="{{ 'Accent-DSRT/audios/proposed-content/Oceanian_test/p335_010_mic1_p232.wav' | relative_url }}"
+                            ></audio>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td data-label="id">
+                            p326 to p232 <br> utterance 001
+                        </td>
+                        <td data-label="source">
+                            <audio
+                                controls="controls"
+                                preload="none"
+                                src="{{ 'Accent-DSRT/audios/gt_16k/p326/p326_001_mic1.flac' | relative_url }}"
+                            ></audio>
+                        </td>
+                        <td data-label="target">
+                            <audio
+                                controls="controls"
+                                preload="none"
+                                src="{{ 'Accent-DSRT/audios/gt_16k/p232/p232_001_mic1.flac' | relative_url }}"
+                            ></audio>
+                        </td>
+                        <td data-label="vevo">
+                            <audio
+                                controls="controls"
+                                preload="none"
+                                src="{{ 'Accent-DSRT/audios/vevo-content/Oceanian_test/p326_001_mic1_p232.wav' | relative_url }}"
+                            ></audio>
+                        </td>
+                        <td data-label="proposed">
+                            <audio
+                                controls="controls"
+                                preload="none"
+                                src="{{ 'Accent-DSRT/audios/proposed-content/Oceanian_test/p326_001_mic1_p232.wav' | relative_url }}"
+                            ></audio>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td data-label="id">
+                            p326 to p232 <br> utterance 011
+                        </td>
+                        <td data-label="source">
+                            <audio
+                                controls="controls"
+                                preload="none"
+                                src="{{ 'Accent-DSRT/audios/gt_16k/p326/p326_011_mic1.flac' | relative_url }}"
+                            ></audio>
+                        </td>
+                        <td data-label="target">
+                            <audio
+                                controls="controls"
+                                preload="none"
+                                src="{{ 'Accent-DSRT/audios/gt_16k/p232/p232_011_mic1.flac' | relative_url }}"
+                            ></audio>
+                        </td>
+                        <td data-label="vevo">
+                            <audio
+                                controls="controls"
+                                preload="none"
+                                src="{{ 'Accent-DSRT/audios/vevo-content/Oceanian_test/p326_011_mic1_p232.wav' | relative_url }}"
+                            ></audio>
+                        </td>
+                        <td data-label="proposed">
+                            <audio
+                                controls="controls"
+                                preload="none"
+                                src="{{ 'Accent-DSRT/audios/proposed-content/Oceanian_test/p326_011_mic1_p232.wav' | relative_url }}"
+                            ></audio>
+                        </td>
+                    </tr>
+                    </div>
+                    
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+          
+          <h3 id="accent-preserving" style="text-align: center">
+            <br>Accent-Preserving Voice Conversion
+          </h3>
+
+          <div class="card card-body ditto-card">
+            <div class="ditto-sample-box">
+              <div class="table-responsive pt-3">
+                <table class="table table-hover pt-2">
+                  <thead>
+                    <tr>
+                      <th></th>
+                      <th>Source</th>
+                      <th>Target</th>
+                      <th>Vevo (content-style)</th>
+                      <th>Proposed (content-accent)</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+
+                    <!-- Audio Samples - oceanian - accent-preserving -->
+                    <div>
+                    <tr>
+                        <td data-label="id">
+                            p374 to p228 <br> utterance 021
+                        </td>
+                        <td data-label="source">
+                            <audio
+                                controls="controls"
+                                preload="none"
+                                src="{{ 'Accent-DSRT/audios/gt_16k/p374/p374_021_mic1.flac' | relative_url }}"
+                            ></audio>
+                        </td>
+                        <td data-label="target">
+                            <audio
+                                controls="controls"
+                                preload="none"
+                                src="{{ 'Accent-DSRT/audios/gt_16k/p228/p228_021_mic1.flac' | relative_url }}"
+                            ></audio>
+                        </td>
+                        <td data-label="vevo">
+                            <audio
+                                controls="controls"
+                                preload="none"
+                                src="{{ 'Accent-DSRT/audios/vevo-content-style/Oceanian_test/p374_021_mic1_p228.wav' | relative_url }}"
+                            ></audio>
+                        </td>
+                        <td data-label="proposed">
+                            <audio
+                                controls="controls"
+                                preload="none"
+                                src="{{ 'Accent-DSRT/audios/proposed-content-accent/Oceanian_test/p374_021_mic1_p228.wav' | relative_url }}"
+                            ></audio>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td data-label="id">
+                            p326 to p228 <br> utterance 017
+                        </td>
+                        <td data-label="source">
+                            <audio
+                                controls="controls"
+                                preload="none"
+                                src="{{ 'Accent-DSRT/audios/gt_16k/p326/p326_017_mic1.flac' | relative_url }}"
+                            ></audio>
+                        </td>
+                        <td data-label="target">
+                            <audio
+                                controls="controls"
+                                preload="none"
+                                src="{{ 'Accent-DSRT/audios/gt_16k/p228/p228_017_mic1.flac' | relative_url }}"
+                            ></audio>
+                        </td>
+                        <td data-label="vevo">
+                            <audio
+                                controls="controls"
+                                preload="none"
+                                src="{{ 'Accent-DSRT/audios/vevo-content-style/Oceanian_test/p326_017_mic1_p228.wav' | relative_url }}"
+                            ></audio>
+                        </td>
+                        <td data-label="proposed">
+                            <audio
+                                controls="controls"
+                                preload="none"
+                                src="{{ 'Accent-DSRT/audios/proposed-content-accent/Oceanian_test/p326_017_mic1_p228.wav' | relative_url }}"
+                            ></audio>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td data-label="id">
+                            p326 to p232 <br> utterance 005
+                        </td>
+                        <td data-label="source">
+                            <audio
+                                controls="controls"
+                                preload="none"
+                                src="{{ 'Accent-DSRT/audios/gt_16k/p326/p326_005_mic1.flac' | relative_url }}"
+                            ></audio>
+                        </td>
+                        <td data-label="target">
+                            <audio
+                                controls="controls"
+                                preload="none"
+                                src="{{ 'Accent-DSRT/audios/gt_16k/p232/p232_005_mic1.flac' | relative_url }}"
+                            ></audio>
+                        </td>
+                        <td data-label="vevo">
+                            <audio
+                                controls="controls"
+                                preload="none"
+                                src="{{ 'Accent-DSRT/audios/vevo-content-style/Oceanian_test/p326_005_mic1_p232.wav' | relative_url }}"
+                            ></audio>
+                        </td>
+                        <td data-label="proposed">
+                            <audio
+                                controls="controls"
+                                preload="none"
+                                src="{{ 'Accent-DSRT/audios/proposed-content-accent/Oceanian_test/p326_005_mic1_p232.wav' | relative_url }}"
+                            ></audio>
+                        </td>
+                    </tr>
+                    </div>
+
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div
+          id="scottish"
+          role="tabpanel"
+          class="tab-pane fade container pt-5 shadow p-5 mb-5 bg-white rounded"
+        >
+          <h3 id="accent-adaptive" style="text-align: center">
+            Accent-Adaptive Voice Conversion
+          </h3>
+
+          <div class="card card-body ditto-card">
+            <div class="ditto-sample-box">
+              <div class="table-responsive pt-3">
+                <table class="table table-hover pt-2">
+                  <thead>
+                    <tr>
+                      <th></th>
+                      <th>Source</th>
+                      <th>Target</th>
+                      <th>Vevo (content)</th>
+                      <th>Proposed (content)</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+
+                    <!-- Audio Samples - scottish - accent-adaptive -->
+                    <div>
+                    <tr>
+                        <td data-label="id">
+                            p264 to p225 <br> utterance 024
+                        </td>
+                        <td data-label="source">
+                            <audio
+                                controls="controls"
+                                preload="none"
+                                src="{{ 'Accent-DSRT/audios/gt_16k/p264/p264_024_mic1.flac' | relative_url }}"
+                            ></audio>
+                        </td>
+                        <td data-label="target">
+                            <audio
+                                controls="controls"
+                                preload="none"
+                                src="{{ 'Accent-DSRT/audios/gt_16k/p225/p225_024_mic1.flac' | relative_url }}"
+                            ></audio>
+                        </td>
+                        <td data-label="vevo">
+                            <audio
+                                controls="controls"
+                                preload="none"
+                                src="{{ 'Accent-DSRT/audios/vevo-content/Scottish_test/p264_024_mic1_p225.wav' | relative_url }}"
+                            ></audio>
+                        </td>
+                        <td data-label="proposed">
+                            <audio
+                                controls="controls"
+                                preload="none"
+                                src="{{ 'Accent-DSRT/audios/proposed-content/Scottish_test/p264_024_mic1_p225.wav' | relative_url }}"
+                            ></audio>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td data-label="id">
+                            p285 to p225 <br> utterance 010
+                        </td>
+                        <td data-label="source">
+                            <audio
+                                controls="controls"
+                                preload="none"
+                                src="{{ 'Accent-DSRT/audios/gt_16k/p285/p285_010_mic1.flac' | relative_url }}"
+                            ></audio>
+                        </td>
+                        <td data-label="target">
+                            <audio
+                                controls="controls"
+                                preload="none"
+                                src="{{ 'Accent-DSRT/audios/gt_16k/p225/p225_010_mic1.flac' | relative_url }}"
+                            ></audio>
+                        </td>
+                        <td data-label="vevo">
+                            <audio
+                                controls="controls"
+                                preload="none"
+                                src="{{ 'Accent-DSRT/audios/vevo-content/Scottish_test/p285_010_mic1_p225.wav' | relative_url }}"
+                            ></audio>
+                        </td>
+                        <td data-label="proposed">
+                            <audio
+                                controls="controls"
+                                preload="none"
+                                src="{{ 'Accent-DSRT/audios/proposed-content/Scottish_test/p285_010_mic1_p225.wav' | relative_url }}"
+                            ></audio>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td data-label="id">
+                            p284 to p226 <br> utterance 003
+                        </td>
+                        <td data-label="source">
+                            <audio
+                                controls="controls"
+                                preload="none"
+                                src="{{ 'Accent-DSRT/audios/gt_16k/p284/p284_003_mic1.flac' | relative_url }}"
+                            ></audio>
+                        </td>
+                        <td data-label="target">
+                            <audio
+                                controls="controls"
+                                preload="none"
+                                src="{{ 'Accent-DSRT/audios/gt_16k/p226/p226_003_mic1.flac' | relative_url }}"
+                            ></audio>
+                        </td>
+                        <td data-label="vevo">
+                            <audio
+                                controls="controls"
+                                preload="none"
+                                src="{{ 'Accent-DSRT/audios/vevo-content/Scottish_test/p284_003_mic1_p226.wav' | relative_url }}"
+                            ></audio>
+                        </td>
+                        <td data-label="proposed">
+                            <audio
+                                controls="controls"
+                                preload="none"
+                                src="{{ 'Accent-DSRT/audios/proposed-content/Scottish_test/p284_003_mic1_p226.wav' | relative_url }}"
+                            ></audio>
+                        </td>
+                    </tr>
+                    </div>
+                    
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+          
+          <h3 id="accent-preserving" style="text-align: center">
+            <br>Accent-Preserving Voice Conversion
+          </h3>
+
+          <div class="card card-body ditto-card">
+            <div class="ditto-sample-box">
+              <div class="table-responsive pt-3">
+                <table class="table table-hover pt-2">
+                  <thead>
+                    <tr>
+                      <th></th>
+                      <th>Source</th>
+                      <th>Target</th>
+                      <th>Vevo (content-style)</th>
+                      <th>Proposed (content-accent)</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+
+                    <!-- Audio Samples - scottish - accent-preserving -->
+                    <div>
+                    <tr>
+                        <td data-label="id">
+                            p265 to p225 <br> utterance 023
+                        </td>
+                        <td data-label="source">
+                            <audio
+                                controls="controls"
+                                preload="none"
+                                src="{{ 'Accent-DSRT/audios/gt_16k/p265/p265_023_mic1.flac' | relative_url }}"
+                            ></audio>
+                        </td>
+                        <td data-label="target">
+                            <audio
+                                controls="controls"
+                                preload="none"
+                                src="{{ 'Accent-DSRT/audios/gt_16k/p225/p225_023_mic1.flac' | relative_url }}"
+                            ></audio>
+                        </td>
+                        <td data-label="vevo">
+                            <audio
+                                controls="controls"
+                                preload="none"
+                                src="{{ 'Accent-DSRT/audios/vevo-content-style/Scottish_test/p265_023_mic1_p225.wav' | relative_url }}"
+                            ></audio>
+                        </td>
+                        <td data-label="proposed">
+                            <audio
+                                controls="controls"
+                                preload="none"
+                                src="{{ 'Accent-DSRT/audios/proposed-content-accent/Scottish_test/p265_023_mic1_p225.wav' | relative_url }}"
+                            ></audio>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td data-label="id">
+                            p264 to p232 <br> utterance 021
+                        </td>
+                        <td data-label="source">
+                            <audio
+                                controls="controls"
+                                preload="none"
+                                src="{{ 'Accent-DSRT/audios/gt_16k/p264/p264_021_mic1.flac' | relative_url }}"
+                            ></audio>
+                        </td>
+                        <td data-label="target">
+                            <audio
+                                controls="controls"
+                                preload="none"
+                                src="{{ 'Accent-DSRT/audios/gt_16k/p232/p232_021_mic1.flac' | relative_url }}"
+                            ></audio>
+                        </td>
+                        <td data-label="vevo">
+                            <audio
+                                controls="controls"
+                                preload="none"
+                                src="{{ 'Accent-DSRT/audios/vevo-content-style/Scottish_test/p264_021_mic1_p232.wav' | relative_url }}"
+                            ></audio>
+                        </td>
+                        <td data-label="proposed">
+                            <audio
+                                controls="controls"
+                                preload="none"
+                                src="{{ 'Accent-DSRT/audios/proposed-content-accent/Scottish_test/p264_021_mic1_p232.wav' | relative_url }}"
+                            ></audio>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td data-label="id">
+                            p264 to p226 <br> utterance 023
+                        </td>
+                        <td data-label="source">
+                            <audio
+                                controls="controls"
+                                preload="none"
+                                src="{{ 'Accent-DSRT/audios/gt_16k/p264/p264_023_mic1.flac' | relative_url }}"
+                            ></audio>
+                        </td>
+                        <td data-label="target">
+                            <audio
+                                controls="controls"
+                                preload="none"
+                                src="{{ 'Accent-DSRT/audios/gt_16k/p226/p226_023_mic1.flac' | relative_url }}"
+                            ></audio>
+                        </td>
+                        <td data-label="vevo">
+                            <audio
+                                controls="controls"
+                                preload="none"
+                                src="{{ 'Accent-DSRT/audios/vevo-content-style/Scottish_test/p264_023_mic1_p226.wav' | relative_url }}"
+                            ></audio>
+                        </td>
+                        <td data-label="proposed">
+                            <audio
+                                controls="controls"
+                                preload="none"
+                                src="{{ 'Accent-DSRT/audios/proposed-content-accent/Scottish_test/p264_023_mic1_p226.wav' | relative_url }}"
+                            ></audio>
+                        </td>
+                    </tr>
+                    </div>
+
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+      </div>
+
+    </article>
+
+    <!-- Final -->
+    <!-- <div class="container pt-5 mt-5 shadow p-5 mb-5 bg-white rounded">
+      <div class="text-center">
+        <h2> Academic Outputs </h2>
+      </div>
+      [1] J. Zhong, K. Richmond, Z. Su and S. Sun, "AccentBox: Towards High-Fidelity Zero-Shot Accent Generation," Proc. IEEE International Conference on Acoustics, Speech and Signal Processing (ICASSP) 2025, 1-5, doi: 10.1109/ICASSP49660.2025.10888332.<br>
+      <span><a target="_blank" href="https://ieeexplore.ieee.org/abstract/document/10888332">Paper</a>,</span>
+      <span><a target="_blank" href="https://www.arxiv.org/abs/2409.09098">Arxiv</a>,</span>
+      <span><a target="_blank" href="https://github.com/jzmzhong/GenAID/tree/GenAID">Code</a>,</span>
+      <span><a target="_blank" href="https://drive.google.com/file/d/1-e6bj5gezeFaHiQo5uTYp81Op2O9xI89/view?usp=drive_link">Video</a>,</span>
+      <span><a target="_blank" href="https://drive.google.com/file/d/18WPUs9Ymh3CBgfMOmShU9tiEkX9BgBit/view?usp=drive_link">Slides</a>,</span>
+      <span><a target="_blank" href="https://drive.google.com/file/d/1nU00A8dYv71I0tCfYFv4S8AZXVrspmNm/view?usp=sharing">Poster</a></span>
+      <br>
+      [2] J. Zhong, S. Liu, D. Wells, and K. Richmond, "Pairwise Evaluation of Accent Similarity in Speech Synthesis," <i>Proc. Interspeech 2025</i><br>
+      <span><a target="_blank" href="https://arxiv.org/abs/2505.14410">Arxiv</a></span>
+      
+    </div>
+    <p>
+
+    </p> -->
+  </main>
+</div>

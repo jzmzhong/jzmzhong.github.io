@@ -7,7 +7,7 @@ redirect_from:
   - /about.html
 ---
 
-Hi! I am Jinzuomu Zhong. I am a first-year PhD Student at the School of Informatics, University of Edinburgh, affiliated to the [Centre for Speech Technology Research (CSTR)](https://www.cstr.ed.ac.uk/) and [Centre for Doctoral Training in Designing Responsible NLP (CDT in DR-NLP)](https://www.responsiblenlp.org/).
+Hi! I am Jinzuomu Zhong. I am a second-year PhD Student at the School of Informatics, University of Edinburgh, affiliated to the [Centre for Speech Technology Research (CSTR)](https://www.cstr.ed.ac.uk/) and [Centre for Doctoral Training in Designing Responsible NLP (CDT in DR-NLP)](https://www.responsiblenlp.org/).
 
 I am supervised by [Dr. Korin Richmond](https://homepages.inf.ed.ac.uk/korin/sitenew/index.html) and [Prof. Simon King](https://homepages.inf.ed.ac.uk/simonk/), working on **Accent and Style Control in Speech Synthesis**. I am interested in a broad range of topics for responsible speech generation, including Controllable TTS, pronunciation and prosody modelling in Expressive TTS (accent/emotion/style), and reducing hallucinations/biases in Speech LLMs.
 
