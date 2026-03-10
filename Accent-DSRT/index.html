@@ -109,6 +109,18 @@ permalink: /Accent-DSRT
           </button>
         </li>
 
+        <li class="nav-item" role="presentation">
+          <button
+            class="nav-link"
+            data-bs-toggle="tab"
+            data-bs-target="#indian"
+            type="button"
+            role="tab"
+          >
+            Indian -> Southern English
+          </button>
+        </li>
+
       </ul>
 
       <!-- Tabs -->
@@ -933,30 +945,273 @@ permalink: /Accent-DSRT
             </div>
           </div>
         </div>
+
+        <div
+          id="indian"
+          role="tabpanel"
+          class="tab-pane fade container pt-5 shadow p-5 mb-5 bg-white rounded"
+        >
+          <h3 id="accent-adaptive" style="text-align: center">
+            Accent-Adaptive Voice Conversion
+          </h3>
+
+          <div class="card card-body ditto-card">
+            <div class="ditto-sample-box">
+              <div class="table-responsive pt-3">
+                <table class="table table-hover pt-2">
+                  <thead>
+                    <tr>
+                      <th></th>
+                      <th>Source</th>
+                      <th>Target</th>
+                      <th>Vevo (content)</th>
+                      <th>Proposed (content)</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+
+                    <!-- Audio Samples - indian - accent-adaptive -->
+                    <div>
+                    <tr>
+                        <td data-label="id">
+                            p248 to p225 <br> utterance 002
+                        </td>
+                        <td data-label="source">
+                            <audio
+                                controls="controls"
+                                preload="none"
+                                src="{{ 'Accent-DSRT/audios/gt_16k/p248/p248_002_mic1.flac' | relative_url }}"
+                            ></audio>
+                        </td>
+                        <td data-label="target">
+                            <audio
+                                controls="controls"
+                                preload="none"
+                                src="{{ 'Accent-DSRT/audios/gt_16k/p225/p225_002_mic1.flac' | relative_url }}"
+                            ></audio>
+                        </td>
+                        <td data-label="vevo">
+                            <audio
+                                controls="controls"
+                                preload="none"
+                                src="{{ 'Accent-DSRT/audios/vevo-content/Indian_test/p248_002_mic1_p225.wav' | relative_url }}"
+                            ></audio>
+                        </td>
+                        <td data-label="proposed">
+                            <audio
+                                controls="controls"
+                                preload="none"
+                                src="{{ 'Accent-DSRT/audios/proposed-content/Indian_test/p248_002_mic1_p225.wav' | relative_url }}"
+                            ></audio>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td data-label="id">
+                            p251 to p225 <br> utterance 003
+                        </td>
+                        <td data-label="source">
+                            <audio
+                                controls="controls"
+                                preload="none"
+                                src="{{ 'Accent-DSRT/audios/gt_16k/p251/p251_003_mic1.flac' | relative_url }}"
+                            ></audio>
+                        </td>
+                        <td data-label="target">
+                            <audio
+                                controls="controls"
+                                preload="none"
+                                src="{{ 'Accent-DSRT/audios/gt_16k/p225/p225_003_mic1.flac' | relative_url }}"
+                            ></audio>
+                        </td>
+                        <td data-label="vevo">
+                            <audio
+                                controls="controls"
+                                preload="none"
+                                src="{{ 'Accent-DSRT/audios/vevo-content/Indian_test/p251_003_mic1_p225.wav' | relative_url }}"
+                            ></audio>
+                        </td>
+                        <td data-label="proposed">
+                            <audio
+                                controls="controls"
+                                preload="none"
+                                src="{{ 'Accent-DSRT/audios/proposed-content/Indian_test/p251_003_mic1_p225.wav' | relative_url }}"
+                            ></audio>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td data-label="id">
+                            p376 to p225 <br> utterance 004
+                        </td>
+                        <td data-label="source">
+                            <audio
+                                controls="controls"
+                                preload="none"
+                                src="{{ 'Accent-DSRT/audios/gt_16k/p376/p376_004_mic1.flac' | relative_url }}"
+                            ></audio>
+                        </td>
+                        <td data-label="target">
+                            <audio
+                                controls="controls"
+                                preload="none"
+                                src="{{ 'Accent-DSRT/audios/gt_16k/p225/p225_004_mic1.flac' | relative_url }}"
+                            ></audio>
+                        </td>
+                        <td data-label="vevo">
+                            <audio
+                                controls="controls"
+                                preload="none"
+                                src="{{ 'Accent-DSRT/audios/vevo-content/Indian_test/p376_004_mic1_p225.wav' | relative_url }}"
+                            ></audio>
+                        </td>
+                        <td data-label="proposed">
+                            <audio
+                                controls="controls"
+                                preload="none"
+                                src="{{ 'Accent-DSRT/audios/proposed-content/Indian_test/p376_004_mic1_p225.wav' | relative_url }}"
+                            ></audio>
+                        </td>
+                    </tr>
+                    </div>
+                    
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+          
+          <h3 id="accent-preserving" style="text-align: center">
+            <br>Accent-Preserving Voice Conversion
+          </h3>
+
+          <div class="card card-body ditto-card">
+            <div class="ditto-sample-box">
+              <div class="table-responsive pt-3">
+                <table class="table table-hover pt-2">
+                  <thead>
+                    <tr>
+                      <th></th>
+                      <th>Source</th>
+                      <th>Target</th>
+                      <th>Vevo (content-style)</th>
+                      <th>Proposed (content-accent)</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+
+                    <!-- Audio Samples - indian - accent-preserving -->
+                    <div>
+                    <tr>
+                        <td data-label="id">
+                            p248 to p225 <br> utterance 002
+                        </td>
+                        <td data-label="source">
+                            <audio
+                                controls="controls"
+                                preload="none"
+                                src="{{ 'Accent-DSRT/audios/gt_16k/p248/p248_002_mic1.flac' | relative_url }}"
+                            ></audio>
+                        </td>
+                        <td data-label="target">
+                            <audio
+                                controls="controls"
+                                preload="none"
+                                src="{{ 'Accent-DSRT/audios/gt_16k/p225/p225_002_mic1.flac' | relative_url }}"
+                            ></audio>
+                        </td>
+                        <td data-label="vevo">
+                            <audio
+                                controls="controls"
+                                preload="none"
+                                src="{{ 'Accent-DSRT/audios/vevo-content-style/Indian_test/p248_002_mic1_p225.wav' | relative_url }}"
+                            ></audio>
+                        </td>
+                        <td data-label="proposed">
+                            <audio
+                                controls="controls"
+                                preload="none"
+                                src="{{ 'Accent-DSRT/audios/proposed-content-accent/Indian_test/p248_002_mic1_p225.wav' | relative_url }}"
+                            ></audio>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td data-label="id">
+                            p251 to p225 <br> utterance 003
+                        </td>
+                        <td data-label="source">
+                            <audio
+                                controls="controls"
+                                preload="none"
+                                src="{{ 'Accent-DSRT/audios/gt_16k/p251/p251_003_mic1.flac' | relative_url }}"
+                            ></audio>
+                        </td>
+                        <td data-label="target">
+                            <audio
+                                controls="controls"
+                                preload="none"
+                                src="{{ 'Accent-DSRT/audios/gt_16k/p225/p225_003_mic1.flac' | relative_url }}"
+                            ></audio>
+                        </td>
+                        <td data-label="vevo">
+                            <audio
+                                controls="controls"
+                                preload="none"
+                                src="{{ 'Accent-DSRT/audios/vevo-content-style/Indian_test/p251_003_mic1_p225.wav' | relative_url }}"
+                            ></audio>
+                        </td>
+                        <td data-label="proposed">
+                            <audio
+                                controls="controls"
+                                preload="none"
+                                src="{{ 'Accent-DSRT/audios/proposed-content-accent/Indian_test/p251_003_mic1_p225.wav' | relative_url }}"
+                            ></audio>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td data-label="id">
+                            p376 to p225 <br> utterance 004
+                        </td>
+                        <td data-label="source">
+                            <audio
+                                controls="controls"
+                                preload="none"
+                                src="{{ 'Accent-DSRT/audios/gt_16k/p376/p376_004_mic1.flac' | relative_url }}"
+                            ></audio>
+                        </td>
+                        <td data-label="target">
+                            <audio
+                                controls="controls"
+                                preload="none"
+                                src="{{ 'Accent-DSRT/audios/gt_16k/p225/p225_004_mic1.flac' | relative_url }}"
+                            ></audio>
+                        </td>
+                        <td data-label="vevo">
+                            <audio
+                                controls="controls"
+                                preload="none"
+                                src="{{ 'Accent-DSRT/audios/vevo-content-style/Indian_test/p376_004_mic1_p225.wav' | relative_url }}"
+                            ></audio>
+                        </td>
+                        <td data-label="proposed">
+                            <audio
+                                controls="controls"
+                                preload="none"
+                                src="{{ 'Accent-DSRT/audios/proposed-content-accent/Indian_test/p376_004_mic1_p225.wav' | relative_url }}"
+                            ></audio>
+                        </td>
+                    </tr>
+                    </div>
+
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
         
       </div>
 
     </article>
 
-    <!-- Final -->
-    <!-- <div class="container pt-5 mt-5 shadow p-5 mb-5 bg-white rounded">
-      <div class="text-center">
-        <h2> Academic Outputs </h2>
-      </div>
-      [1] J. Zhong, K. Richmond, Z. Su and S. Sun, "AccentBox: Towards High-Fidelity Zero-Shot Accent Generation," Proc. IEEE International Conference on Acoustics, Speech and Signal Processing (ICASSP) 2025, 1-5, doi: 10.1109/ICASSP49660.2025.10888332.<br>
-      <span><a target="_blank" href="https://ieeexplore.ieee.org/abstract/document/10888332">Paper</a>,</span>
-      <span><a target="_blank" href="https://www.arxiv.org/abs/2409.09098">Arxiv</a>,</span>
-      <span><a target="_blank" href="https://github.com/jzmzhong/GenAID/tree/GenAID">Code</a>,</span>
-      <span><a target="_blank" href="https://drive.google.com/file/d/1-e6bj5gezeFaHiQo5uTYp81Op2O9xI89/view?usp=drive_link">Video</a>,</span>
-      <span><a target="_blank" href="https://drive.google.com/file/d/18WPUs9Ymh3CBgfMOmShU9tiEkX9BgBit/view?usp=drive_link">Slides</a>,</span>
-      <span><a target="_blank" href="https://drive.google.com/file/d/1nU00A8dYv71I0tCfYFv4S8AZXVrspmNm/view?usp=sharing">Poster</a></span>
-      <br>
-      [2] J. Zhong, S. Liu, D. Wells, and K. Richmond, "Pairwise Evaluation of Accent Similarity in Speech Synthesis," <i>Proc. Interspeech 2025</i><br>
-      <span><a target="_blank" href="https://arxiv.org/abs/2505.14410">Arxiv</a></span>
-      
-    </div>
-    <p>
-
-    </p> -->
+    
   </main>
 </div>
